@@ -49,6 +49,7 @@ const themeNames = {
 export default function Editor() {
   const handleLanguage = (event) => {
     setLanguageName(languages[event.target.value])
+    setSelected_language(event.target.value);
   }
   const handleTheme = (event) => {
     setThemeName(themeNames[event.target.value])
@@ -56,15 +57,14 @@ export default function Editor() {
   async function handleClick(){
       const post_data={
         "data_input":"",
-        "lang":LanguageName['language']['name'],
+        "lang":selected_language,
         "typed_code":code
       };
       let url_link="https://leetcode.com/playground/api/runcode";
       let link_local="https://codeverse-language-server.azurewebsites.net/"
-      // console.log(code,LanguageName['language']['name']);
       let response=await axios.post(link_local,{"data":post_data});
       let response2=response.data;
-      setOut(response2.code_output)
+      setOut(response2.code_output);
       console.log(response2);
   }
   const onChange = React.useCallback((value, viewUpdate) => {
@@ -74,13 +74,14 @@ export default function Editor() {
   const [LanguageName, setLanguageName] = useState(langs.cpp());
   const [ThemeName, setThemeName] = useState();
   const [out,setOut]=useState();
+  const [selected_language,setSelected_language]=useState();
   return (
     <div className='bg-slate-900 px-1 py-1'>
       <div>
         <div className='flex'>
           <div className='mr-2'>
             <select onChange={handleLanguage}>
-              {/* <option value="c">C</option> */}
+              <option value="c">C</option>
               <option value="cpp">C++</option>
               <option value="python">Python</option>
               <option value="python3">Python3</option>
