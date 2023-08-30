@@ -53,29 +53,34 @@ export default function Editor() {
   const handleTheme = (event) => {
     setThemeName(themeNames[event.target.value])
   }
-  // async function handleClick(){
-  //     const post_data={
-  //       "data_input":"",
-  //       "lang":LanguageName['language']['name'],
-  //       "typed_code":code
-  //     };
-  //     let url_link="https://leetcode.com/playground/api/runcode";
-  //     console.log(code,LanguageName['language']['name'])
-  //     axios.post(url_link,{post_data},{headers:{"Access-Control-Allow-Origin":"*"}})
-  // }
+  async function handleClick(){
+      const post_data={
+        "data_input":"",
+        "lang":LanguageName['language']['name'],
+        "typed_code":code
+      };
+      let url_link="https://leetcode.com/playground/api/runcode";
+      let link_local="https://codeverse-language-server.azurewebsites.net/"
+      // console.log(code,LanguageName['language']['name']);
+      let response=await axios.post(link_local,{"data":post_data});
+      let response2=response.data;
+      setOut(response2.code_output)
+      console.log(response2);
+  }
   const onChange = React.useCallback((value, viewUpdate) => {
     setCode(value)
   }, []);
   const [code, setCode] = useState();
-  const [LanguageName, setLanguageName] = useState(langs.c());
+  const [LanguageName, setLanguageName] = useState(langs.cpp());
   const [ThemeName, setThemeName] = useState();
+  const [out,setOut]=useState();
   return (
     <div className='bg-slate-900 px-1 py-1'>
       <div>
         <div className='flex'>
           <div className='mr-2'>
             <select onChange={handleLanguage}>
-              <option value="c">C</option>
+              {/* <option value="c">C</option> */}
               <option value="cpp">C++</option>
               <option value="python">Python</option>
               <option value="python3">Python3</option>
@@ -121,14 +126,14 @@ export default function Editor() {
         </div>
         <div className='h-screen flex'>
           <div className='w-screen'>
-            <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(95vh)' width='calc(70vw)' />
+            <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(95vh)' width='calc(70vw)' onChange={onChange} />
           </div>
           <div className='flex flex-col'>
             <div>
               <InputBox></InputBox>
             </div>
             <div>
-              <OutPutBox code={code}></OutPutBox>
+              <OutPutBox code={out}></OutPutBox>
             </div>
           </div>
         </div>
