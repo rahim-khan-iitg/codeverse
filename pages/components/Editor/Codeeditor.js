@@ -3,7 +3,6 @@ import CodeMirror from '@uiw/react-codemirror';
 import { useState } from 'react';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import * as themes from '@uiw/codemirror-themes-all'
-import InputBox from './Inputbox';
 import OutPutBox from './Outputbox';
 import React from 'react';
 const p = 'print("Hello World")';
