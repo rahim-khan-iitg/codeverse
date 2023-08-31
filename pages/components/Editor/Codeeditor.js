@@ -44,7 +44,7 @@ const themeNames = {
   'material': themes.material,
   'noctisLlilac': themes.noctisLilac,
   'okaidia': themes.okaidia,
-  'vscode':themes.vscodeDark
+  'vscode': themes.vscodeDark
 }
 export default function Editor() {
   const handleLanguage = (event) => {
@@ -56,7 +56,7 @@ export default function Editor() {
   }
   async function handleClick() {
     const post_data = {
-      "data_input":code_input,
+      "data_input": code_input,
       "lang": selected_language,
       "typed_code": code
     };
@@ -76,12 +76,12 @@ export default function Editor() {
     else {
       setOut(response2.code_output);
     }
-    console.log(response2.code_output);
+    console.log(response2);
   }
   const onChange = React.useCallback((value, viewUpdate) => {
     setCode(value);
   }, []);
-  const handleInput=(event)=>{
+  const handleInput = (event) => {
     setCode_input(event.target.value);
   }
   const [code, setCode] = useState();
@@ -89,7 +89,7 @@ export default function Editor() {
   const [ThemeName, setThemeName] = useState();
   const [out, setOut] = useState();
   const [selected_language, setSelected_language] = useState();
-  const [code_input, setCode_input] = useState();
+  const [code_input, setCode_input] = useState("");
   return (
     <div className='bg-slate-900 px-1 py-1'>
       <div>
@@ -117,6 +117,7 @@ export default function Editor() {
           </div>
           <div>
             <select onChange={handleTheme}>
+              <option value="vscode">vscodeDark</option>
               <option value="abcdef">abcdef</option>
               <option value="androidstudio">androidstudio</option>
               <option value="atomone">atomone</option>
@@ -134,7 +135,7 @@ export default function Editor() {
               <option value="noctisLilac">noctisLilac</option>
               <option value="abyss">Abyss</option>
               <option value="okaidia">Okaidia</option>
-              <option value="vscode">vscodeDark</option>
+
             </select>
           </div>
           <div className=' mx-2 px-2 bg-white hover:bg-slate-400'>
@@ -147,7 +148,7 @@ export default function Editor() {
           </div>
           <div className='flex flex-col'>
             <div>
-              <textarea value={code_input} name="input" style={{ height: "49vh", width: "29vw" }} className="bg-slate-800 text-white px-2"  onChange={handleInput}></textarea>
+              <textarea value={code_input} name="input" style={{ height: "49vh", width: "29vw" }} className="bg-slate-800 text-white px-2" onChange={handleInput}></textarea>
             </div>
             <div>
               <OutPutBox code={out}></OutPutBox>
