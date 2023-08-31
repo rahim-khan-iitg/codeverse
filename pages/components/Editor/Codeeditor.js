@@ -44,7 +44,8 @@ const themeNames = {
   'kimbie': themes.kimbie,
   'material': themes.material,
   'noctisLlilac': themes.noctisLilac,
-  'okaidia': themes.okaidia
+  'okaidia': themes.okaidia,
+  'vscode':themes.vscodeDark
 }
 export default function Editor() {
   const handleLanguage = (event) => {
@@ -54,27 +55,42 @@ export default function Editor() {
   const handleTheme = (event) => {
     setThemeName(themeNames[event.target.value])
   }
-  async function handleClick(){
-      const post_data={
-        "data_input":"",
-        "lang":selected_language,
-        "typed_code":code
-      };
-      let url_link="https://leetcode.com/playground/api/runcode";
-      let link_local="https://codeverse-language-server.azurewebsites.net/"
-      let response=await axios.post(link_local,{"data":post_data});
-      let response2=response.data;
+  async function handleClick() {
+    const post_data = {
+      "data_input":code_input,
+      "lang": selected_language,
+      "typed_code": code
+    };
+    // console.log(code_input)
+    let link_local = "https://codeverse-language-server.azurewebsites.net/"
+    let response = await axios.post(link_local, { "data": post_data });
+    let response2 = response.data;
+    if (response2.run_success == false) {
+      if (response2.full_compile_error) {
+        setOut(response2.full_compile_error);
+      }
+      else {
+        setOut(response2.full_runtime_error);
+      }
+
+    }
+    else {
       setOut(response2.code_output);
-      console.log(response2);
+    }
+    console.log(response2.code_output);
   }
   const onChange = React.useCallback((value, viewUpdate) => {
-    setCode(value)
+    setCode(value);
   }, []);
+  const handleInput=(event)=>{
+    setCode_input(event.target.value);
+  }
   const [code, setCode] = useState();
   const [LanguageName, setLanguageName] = useState(langs.cpp());
   const [ThemeName, setThemeName] = useState();
-  const [out,setOut]=useState();
-  const [selected_language,setSelected_language]=useState();
+  const [out, setOut] = useState();
+  const [selected_language, setSelected_language] = useState();
+  const [code_input, setCode_input] = useState();
   return (
     <div className='bg-slate-900 px-1 py-1'>
       <div>
@@ -119,6 +135,7 @@ export default function Editor() {
               <option value="noctisLilac">noctisLilac</option>
               <option value="abyss">Abyss</option>
               <option value="okaidia">Okaidia</option>
+              <option value="vscode">vscodeDark</option>
             </select>
           </div>
           <div className=' mx-2 px-2 bg-white hover:bg-slate-400'>
@@ -131,7 +148,7 @@ export default function Editor() {
           </div>
           <div className='flex flex-col'>
             <div>
-              <InputBox></InputBox>
+              <textarea value={code_input} name="input" style={{ height: "49vh", width: "29vw" }} className="bg-slate-800 text-white px-2"  onChange={handleInput}></textarea>
             </div>
             <div>
               <OutPutBox code={out}></OutPutBox>
