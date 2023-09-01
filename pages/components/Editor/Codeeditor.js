@@ -1,10 +1,12 @@
 import axios from 'axios';
 import CodeMirror from '@uiw/react-codemirror';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import * as themes from '@uiw/codemirror-themes-all'
 import OutPutBox from './Outputbox';
 import React from 'react';
+import { css } from '@emotion/react'
+import { ClipLoader } from 'react-spinners';
 const p = 'print("Hello World")';
 const languages = {
   'c': langs.c(),
@@ -46,6 +48,10 @@ const themeNames = {
   'okaidia': themes.okaidia,
   'vscode': themes.vscodeDark
 }
+const spinnerStyles = css`
+  display: block;
+  margin: 0 auto;
+`;
 export default function Editor() {
   const handleLanguage = (event) => {
     setLanguageName(languages[event.target.value])
@@ -62,6 +68,7 @@ export default function Editor() {
     };
     // console.log(code_input)
     if (code != null) {
+      setLoading(true);
       let link_local = "https://codeverse-language-server.azurewebsites.net/"
       let response = await axios.post(link_local, { "data": post_data });
       let response2 = response.data;
@@ -77,6 +84,7 @@ export default function Editor() {
       else {
         setOut(response2.code_output);
       }
+      setLoading(false);
       console.log(response2);
     }
   }
@@ -90,8 +98,9 @@ export default function Editor() {
   const [LanguageName, setLanguageName] = useState(langs.cpp());
   const [ThemeName, setThemeName] = useState(themes.vscodeDark);
   const [out, setOut] = useState();
-  const [selected_language, setSelected_language] = useState();
+  const [selected_language, setSelected_language] = useState("cpp");
   const [code_input, setCode_input] = useState("");
+  const [loading, setLoading] = useState(false);
   return (
     <div className='bg-slate-900 px-1 py-1'>
       <div>
@@ -141,7 +150,10 @@ export default function Editor() {
             </select>
           </div>
           <div className='mx-2 px-1 bg-white hover:bg-slate-400'>
-            <button className='text-lg' onClick={handleClick}>Run</button>
+            {loading ? (<div className='spinner-container'>
+              <ClipLoader color='#123abc' loading={loading} css={spinnerStyles} size={22}></ClipLoader>
+            </div>
+            ) : (<button className='text-lg' onClick={handleClick}>Run</button>)}
           </div>
         </div>
         <div className='h-screen flex mx-2'>
