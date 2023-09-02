@@ -102,11 +102,11 @@ export default function Editor() {
   const [code_input, setCode_input] = useState("");
   const [loading, setLoading] = useState(false);
   return (
-    <div className='bg-slate-700 px-1 py-1'>
+    <div className='px-1 py-1 shadow-lg'>
       <div>
         <div className='flex mx-2'>
           <div className='mr-2'>
-            <select onChange={handleLanguage} className='h-7'>
+            <select onChange={handleLanguage} className='h-7 bg-slate-400 rounded-md'>
               <option value="cpp">C++</option>
               <option value="c">C</option>
               <option value="python">Python</option>
@@ -127,7 +127,7 @@ export default function Editor() {
             </select>
           </div>
           <div>
-            <select onChange={handleTheme} className='h-7'>
+            <select onChange={handleTheme} className='h-7 bg-slate-400 rounded-md'>
               <option value="vscode">vscodeDark</option>
               <option value="abcdef">abcdef</option>
               <option value="androidstudio">androidstudio</option>
@@ -149,7 +149,7 @@ export default function Editor() {
 
             </select>
           </div>
-          <div className='mx-2 px-1 bg-white hover:bg-slate-400'>
+          <div className='mx-2 px-1 bg-slate-400 hover:bg-slate-500 rounded-md w-12'>
             {loading ? (<div className='spinner-container'>
               {/* <ClipLoader color='#123abc' loading={loading} css={spinnerStyles} size={22}></ClipLoader> */}
               <MoonLoader color='#123abc' loading={loading} css={spinnerStyles} size={22}></MoonLoader>
@@ -159,13 +159,13 @@ export default function Editor() {
             ) : (<button className='text-lg' onClick={handleClick}>Run</button>)}
           </div>
         </div>
-        <div className='h-screen flex mx-2'>
+        <div className='h-[calc(100hv-10rem)] flex mx-2'>
           <div className='w-screen'>
-            <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(95vh)' width='calc(70vw)' onChange={onChange} />
+            <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(88vh)' width='calc(70vw)' onChange={onChange} />
           </div>
           <div className='flex flex-col'>
             <div>
-              <textarea value={code_input} name="input" style={{ height: "49vh", width: "29vw" }} className="bg-slate-800 text-white px-2" onChange={handleInput} placeholder='type input here....'></textarea>
+              <textarea value={code_input} name="input" style={{ height: "43.1vh", width: "29vw",border:"2px solid black" }} className="shadow-md px-2" onChange={handleInput} placeholder='type input here....'></textarea>
             </div>
             <div>
               <OutPutBox code={out} ></OutPutBox>
