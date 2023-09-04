@@ -7,7 +7,7 @@ const Navbar = () => {
         <Image src="/logo.jpg" alt="logo" width={20} height={20} /> Codeverse
       </Link>
       <div className="flex">
-        <Link href="/about" className="px-4 hover:text-gray-800">
+        <Link href="/auth/profile" className="px-4 hover:text-gray-800">
           About
         </Link>
         <Link href="/contact" className="px-4 hover:text-gray-800">
