@@ -6,9 +6,9 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <body>
-      <Navbar></Navbar>
-        <Main />
-        <NextScript />
+          <Navbar login={"login"}></Navbar>
+          <Main />
+          <NextScript />
       </body>
     </Html>
   )

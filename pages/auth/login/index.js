@@ -3,7 +3,7 @@ import SignIn from "@/pages/components/Authorization/SignIn";
 export default function Login() {
     return (
         <div>
-                <SignIn></SignIn>
+            <SignIn></SignIn>
         </div>
     )
 };

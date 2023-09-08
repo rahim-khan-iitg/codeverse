@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-const Navbar = () => {
+const Navbar = (props) => {
   return (
     <nav className="flex justify-between items-center py-3 px shadow-md text-gray-700">
       <Link href="/" className="text-1xl font-bold flex px-3">
@@ -14,7 +14,7 @@ const Navbar = () => {
         Contact
         </Link>
         <Link href="/auth/login" className="px-4 hover:text-gray-800">
-        Login
+          {props.login}
         </Link>
       </div>
     </nav>

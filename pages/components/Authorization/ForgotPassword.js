@@ -68,7 +68,7 @@ const Forgotpassword = () => {
             </button>):(<div></div>)}
           </div>
           <div>
-            not a member?
+            Don&apos;t have an account?
             <Link href="/auth/signup" className='text-blue-800 font-bold'> sign up</Link>
           </div>
         </div>

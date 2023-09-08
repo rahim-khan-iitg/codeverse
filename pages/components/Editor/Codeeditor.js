@@ -6,8 +6,7 @@ import * as themes from '@uiw/codemirror-themes-all'
 import OutPutBox from './Outputbox';
 import React from 'react';
 import { css } from '@emotion/react'
-import { ClipLoader,MoonLoader,BeatLoader,BounceLoader } from 'react-spinners';
-const p = 'print("Hello World")';
+import { MoonLoader } from 'react-spinners';
 const languages = {
   'c': langs.c(),
   'cpp': langs.cpp(),
@@ -151,10 +150,7 @@ export default function Editor() {
           </div>
           <div className='mx-2 px-1 bg-slate-400 hover:bg-slate-500 rounded-md w-12'>
             {loading ? (<div className='spinner-container'>
-              {/* <ClipLoader color='#123abc' loading={loading} css={spinnerStyles} size={22}></ClipLoader> */}
               <MoonLoader color='#123abc' loading={loading} css={spinnerStyles} size={22}></MoonLoader>
-              {/* <BeatLoader color='#123abc' loading={loading} css={spinnerStyles} size={9}></BeatLoader> */}
-              {/* <BounceLoader color='#123abc' loading={loading} css={spinnerStyles} size={22}></BounceLoader> */}
             </div>
             ) : (<button className='text-lg' onClick={handleClick}>Run</button>)}
           </div>

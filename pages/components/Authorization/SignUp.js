@@ -10,7 +10,7 @@ const SignUp = () => {
     const [show_otp_section,setShowOTPSection]=useState(false);
   return (
     <div className="h-[calc(100vh-3rem)] flex items-center justify-center">
-      <div className="w-80 p-6 space-y-6 bg-white rounded-lg shadow-lg">
+      <div className="w-96 p-6 space-y-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-center flex "><Image src='/logo.jpg' width={30} height={30} alt='codeverse'></Image>Codeverse</h2>
         <div className="space-y-4">
           <div>
@@ -68,7 +68,7 @@ const SignUp = () => {
             </button>):(<div></div>)}
           </div>
           <div>
-            already a member?
+            already have an account?
             <Link href="/auth/login" className='text-blue-800 font-bold'> sign in</Link>
           </div>
         </div>
