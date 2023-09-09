@@ -21,7 +21,8 @@ const Navbar = () => {
           Contact
           </Link>
           <Link href='/auth/login' className="px-4 hover:text-gray-800">
-          {session.user.email}
+          {/* {session.user.email} */}
+          <img src={session.user.image} alt='image' className='w-8 rounded-2xl'></img>
           </Link>
         </div>
       </nav>
