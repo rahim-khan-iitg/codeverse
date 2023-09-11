@@ -26,18 +26,20 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         const {email, password } = credentials;
+        console.log(credentials)
         // const post_url = "https://64fc6e0b605a026163ae7bdc.mockapi.io/users";
-        const post_url="http://127.0.0.1:5000/s"
-        let response =await axios.post(post_url,{"data":credentials})
-        // console.log(response)
-        // console.log(credentials)
-        const user=response['data']
-        if(user['result']==1){
-          return user;
-        }
-        else{
-          return null;
-        }
+        const post_url="/api/DB/fetch"
+        let response =await axios.post(post_url,credentials)
+        console.log(response)
+        
+        // const user=response['data']
+        // if(user[password]==password){
+        //   return user;
+        // }
+        // else{
+        //   return null;
+        // }
+        return {"email":"rahim@123",name:"rahim"}
       }
     })
   ],

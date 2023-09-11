@@ -69,8 +69,10 @@ export default function Editor() {
     if (code != null) {
       setLoading(true);
       let link_local = "https://codeverse-language-server.azurewebsites.net/"
-      let response = await axios.post(link_local, { "data": post_data });
-      let response2 = response.data;
+      let response = await axios.post("/api/Editor", post_data);
+      // let response=await fetch("/api/Editor",{method:"POST",body:JSON.stringify(post_data)});
+      let response2=response.data;
+      // console.log(response2);
       if (response2.run_success == false) {
         if (response2.full_compile_error) {
           setOut(response2.full_compile_error);
@@ -84,7 +86,7 @@ export default function Editor() {
         setOut(response2.code_output);
       }
       setLoading(false);
-      console.log(response2);
+      // console.log(response2);
     }
   }
   const onChange = React.useCallback((value, viewUpdate) => {
