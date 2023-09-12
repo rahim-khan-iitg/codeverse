@@ -2,12 +2,26 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { useState } from 'react';
-
 const SignUp = () => {
-    const handleClick=()=>{
-        setShowOTPSection(true);
+  const generate_otp = () => {
+    let x = Math.floor(Math.random() * 10000);
+    return x;
+  }
+  const handleClick = async () => {
+    if (email != "") {
+      setShowOTPSection(true);
+      let otp = generate_otp()
+      setGeneratedOTP(otp);
+      const res = await fetch("/api/Email", { method: "POST", body: JSON.stringify({ email: email, otp: otp }), headers: { "Content-Type": "application/json" } })
     }
-    const [show_otp_section,setShowOTPSection]=useState(false);
+
+
+  }
+  const [show_otp_section, setShowOTPSection] = useState(false);
+  const [email, setEmail] = useState("");
+  const [OTP, setOTP] = useState();
+  const [password, setPassword] = useState("");
+  const [generated_otp, setGeneratedOTP] = useState();
   return (
     <div className="h-[calc(100vh-3rem)] flex items-center justify-center">
       <div className="w-96 p-6 space-y-6 bg-white rounded-lg shadow-lg">
@@ -23,6 +37,8 @@ const SignUp = () => {
               name="email"
               className="mt-1 p-2 w-full border rounded-md"
               placeholder="you@example.com"
+              required
+              value={email} onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
@@ -34,38 +50,42 @@ const SignUp = () => {
             </button>
           </div>
           <div>
-            {show_otp_section?(<div><div>
-            <label htmlFor="otp" className="block font-medium text-gray-700">
-              OTP
-            </label>
-            <input
-              type='text'
-              id="otp"
-              name="otp"
-              className="mt-1 p-2 w-full border rounded-md"
-              placeholder="123abc"
-            />
+            {show_otp_section ? (<div><div>
+              <label htmlFor="otp" className="block font-medium text-gray-700">
+                OTP
+              </label>
+              <input
+                type='text'
+                id="otp"
+                name="otp"
+                className="mt-1 p-2 w-full border rounded-md"
+                placeholder="1234"
+                required
+                value={OTP} onChange={(e) => setOTP(e.target.value)}
+              />
+            </div>
+              <div>
+                <label htmlFor="password" className="block font-medium text-gray-700">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="mt-1 p-2 w-full border rounded-md"
+                  placeholder="********"
+                  required
+                  value={password} onChange={(e) => setPassword(e.target.value)}
+                />
+              </div></div>) : (<div></div>)}
           </div>
           <div>
-            <label htmlFor="password" className="block font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="mt-1 p-2 w-full border rounded-md"
-              placeholder="********"
-            />
-          </div></div>):(<div></div>)}
-          </div>
-          <div>
-            {show_otp_section?(<button
+            {show_otp_section ? (<button
               className="w-full bg-indigo-600 text-white font-semibold p-2 rounded-md hover:bg-indigo-700"
               type='submit'
             >
               Sign Up
-            </button>):(<div></div>)}
+            </button>) : (<div></div>)}
           </div>
           <div>
             already have an account?
