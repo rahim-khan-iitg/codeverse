@@ -4,6 +4,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
+import Component from './loginbts';
 import { css } from '@emotion/react'
 import { MoonLoader } from 'react-spinners';
 const spinnerStyles = css`
@@ -19,9 +20,9 @@ const SignIn = () => {
     setLoading(true)
     const res=await signIn('credentials',{
       email:email,password:password,
-      redirect:true
+      redirect:false
     })
-    console.log(res)
+    // console.log(res)
     setEmail("")
     setPassword("")
     setLoading(false)
@@ -88,8 +89,8 @@ const SignIn = () => {
                 >
                   Log In
                 </button>)}
-              {/* <Component/> */}
             </div>
+            <div className='space-x-2'><button onClick={()=>signIn('github')}><img src='https://logos-download.com/wp-content/uploads/2016/09/GitHub_logo.png' alt='github' height={30} width={30}/></button><button onClick={()=>signIn('google')}> <img src="https://th.bing.com/th/id/OIP.jzpEpg2QzzXWjH4-4CPg2QHaHa?pid=ImgDet&rs=1" alt="google" width={30} height={30} className='rounded-xl' /></button></div>
             <div>
               Don&apos;t have an account? <Link href="/auth/signup" className='text-blue-800 font-bold'> sign up</Link>
             </div>
