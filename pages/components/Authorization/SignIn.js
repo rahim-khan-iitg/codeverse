@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { useSession, signIn, signOut } from "next-auth/react"
 import Image from 'next/image';
 import Link from 'next/link';
-import axios from 'axios';
-import Component from './loginbts';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { css } from '@emotion/react'
 import { MoonLoader } from 'react-spinners';
 const spinnerStyles = css`
@@ -23,6 +23,7 @@ const SignIn = () => {
       redirect:false
     })
     // console.log(res)
+    toast("signed in successfully");
     setEmail("")
     setPassword("")
     setLoading(false)
@@ -49,6 +50,18 @@ const SignIn = () => {
           <h2 className="text-2xl font-semibold text-center flex "><Image src='/logo.jpg' width={30} height={30} alt='codeverse'></Image>Codeverse</h2>
           <div className="space-y-4">
             <div>
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
               <label htmlFor="email" className="block font-medium text-gray-700">
                 Email Address
               </label>
@@ -90,9 +103,12 @@ const SignIn = () => {
                   Log In
                 </button>)}
             </div>
-            <div className='space-x-2'><button onClick={()=>signIn('github')}><img src='https://logos-download.com/wp-content/uploads/2016/09/GitHub_logo.png' alt='github' height={30} width={30}/></button><button onClick={()=>signIn('google')}> <img src="https://th.bing.com/th/id/OIP.jzpEpg2QzzXWjH4-4CPg2QHaHa?pid=ImgDet&rs=1" alt="google" width={30} height={30} className='rounded-xl' /></button></div>
+            <div className='space-x-2'><button onClick={()=>{signIn('github'); toast("signed in successfully")}}><img src='https://logos-download.com/wp-content/uploads/2016/09/GitHub_logo.png' alt='github' height={30} width={30}/></button><button onClick={()=>{signIn('google');toast("signed in successfully")}}> <img src="https://th.bing.com/th/id/OIP.jzpEpg2QzzXWjH4-4CPg2QHaHa?pid=ImgDet&rs=1" alt="google" width={30} height={30} className='rounded-xl' /></button></div>
             <div>
               Don&apos;t have an account? <Link href="/auth/signup" className='text-blue-800 font-bold'> sign up</Link>
+            </div>
+            <div>
+              <Link href="/auth/forgot" className='text-red-600 font-bold'>Forgot Password</Link>
             </div>
           </div>
         </div>
