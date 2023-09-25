@@ -45,8 +45,8 @@ const SignIn = () => {
   }
   else {
     return (
-      <div className="h-[calc(100vh-3rem)] flex items-center justify-center">
-        <div className="w-96 p-6 space-y-6 bg-white rounded-lg shadow-lg">
+      <div className="h-[calc(100vh-3rem)] flex items-center justify-center dark:text-white">
+        <div className="w-96 p-6 space-y-6 bg-white rounded-lg shadow-lg dark:bg-black dark:text-white">
           <h2 className="text-2xl font-semibold text-center flex "><Image src='/logo.jpg' width={30} height={30} alt='codeverse'></Image>Codeverse</h2>
           <div className="space-y-4">
             <div>

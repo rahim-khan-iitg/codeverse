@@ -45,30 +45,22 @@ const QuestionSettingPage = () => {
 
   // Define your category options
   const categories = [
-    'C',
-    'C++',
-    'Python2',
-    'Python3',
-    'Java',
-    'C#',
-    'Javascript',
-    'Ruby',
-    'Swift',
-    'Go',
-    'Scala',
-    'Kotlin',
-    'Rust',
-    'PHP',
-    'Typescript',
-    'Racket(x)',
-    'Erlang',
-    'Elixir(x)',
-    'Dart',
+    'Array',
+    'String',
+    'Linked List',
+    'Tree',
+    'Graph',
+    'Stack',
+    'Queue',
+    'Hashmap',
+    'Sorting',
+    'Sliding window',
+    'Trie'
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full md:w-2/3 lg:w-1/2">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center mt-2">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full md:w-full lg:w-full">
         <h1 className="text-2xl font-semibold mb-4">Set New Question</h1>
         <form onSubmit={handleSubmit}>
           {/* Question Title */}
@@ -144,7 +136,7 @@ const QuestionSettingPage = () => {
           {/* Diagrams/Images Upload */}
           <div className="mb-4">
             <label className="block text-gray-600">Diagrams/Images Upload</label>
-            {/* Add file input for image upload */}
+            <input type='file' className='mt-1' accept='image/*' multiple></input>
           </div>
 
           {/* Constraints */}
@@ -175,6 +167,20 @@ const QuestionSettingPage = () => {
               required
             ></textarea>
           </div>
+          {/* Test Cases */}
+          <div className="mb-4">
+            <label htmlFor="testCases" className="block text-gray-600">Answers of the Test Cases (String Format)</label>
+            <textarea
+              id="testCases"
+              name="testCases"
+              rows="4"
+              value={formData.testCases}
+              onChange={handleInputChange}
+              className="border border-gray-300 rounded-md p-2 w-full"
+              placeholder="Enter test case Answers (one per line)"
+              required
+            ></textarea>
+          </div>
 
           {/* Initial Code */}
           <div className="mb-4">
@@ -189,18 +195,11 @@ const QuestionSettingPage = () => {
               placeholder="Enter initial code (if applicable)"
             ></textarea>
           </div>
-
-          {/* Language Options */}
-          <div className="mb-4">
-            <label htmlFor="language" className="block text-gray-600">Language Options</label>
-            {/* Add checkboxes or a select element for language options */}
-          </div>
-
           {/* Submit Button */}
           <div className="mt-6">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+              className="bg-indigo-600 text-white font-semibold p-2 rounded-md hover:bg-indigo-700"
             >
               Submit
             </button>
