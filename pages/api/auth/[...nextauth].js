@@ -1,9 +1,9 @@
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
-import CredentialsProvider  from "next-auth/providers/credentials"
+import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from 'next-auth/providers/google'
-import axios from "axios"
-
+import { compare } from "bcryptjs"
+import connection from "@/database/conn"
 export const authOptions = {
   // Configure one or more authentication providers
   session: {
@@ -15,38 +15,41 @@ export const authOptions = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
     GoogleProvider({
-      clientId:process.env.GOOGLE_CLIENT_ID,
-      clientSecret:process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
       type: 'credentials',
       credentials: {
-        email:{label:"Email",type:"email",placeholder:"example@something.com"},
-        password:{label:"Password",type:"password",placeholder:"**********"}
+        email: { label: "Email", type: "email", placeholder: "example@something.com" },
+        password: { label: "Password", type: "password", placeholder: "**********" }
       },
       async authorize(credentials, req) {
-        const {email, password } = credentials;
-        console.log(credentials)
-        // const post_url = "https://64fc6e0b605a026163ae7bdc.mockapi.io/users";
-        const post_url="/api/DB/fetch"
-        let response =await axios.post(post_url,credentials)
-        console.log(response)
-        
-        // const user=response['data']
-        // if(user[password]==password){
-        //   return user;
-        // }
-        // else{
-        //   return null;
-        // }
-        return {"email":"rahim@123",name:"rahim"}
+        const { email, password } = credentials;
+        const response = await handler(email,password);
+        return response;
       }
     })
   ],
-  // pages:{
-  //   signIn:"/auth/login"
-  // },
-  secret: process.env.JWT_SECRET
+  pages: {
+    signIn: "/auth/login"
+  },
+  secret: process.env.JWT_SECRET,
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      return true
+    }
+  }
 }
-
+async function handler(email,password) {
+  const conn = await connection();
+  const [rows, fields] = await conn.execute("SELECT * FROM user WHERE email=?", [email]);
+  const fetched_pass=rows[0]['password'];
+  const res= await compare(password,fetched_pass);
+  if(res)
+  {
+    return { "email":rows[0]['email'],image:rows[0]['profile_image_link'] };
+  }
+  return null;
+}
 export default NextAuth(authOptions)
