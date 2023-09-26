@@ -30,8 +30,8 @@ const SignIn = () => {
   }
   if (session) {
     return (
-      <div className="h-[calc(100vh-3rem)] flex items-center justify-center">
-        <div className="w-96 p-6 space-y-6 bg-white rounded-lg shadow-lg">
+      <div className="h-[calc(100vh-3rem)] flex items-center justify-center dark:text-white">
+        <div className="w-96 p-6 space-y-6 bg-white rounded-lg shadow-lg dark:bg-black dark:shadow-gray-700">
           <h2 className="text-2xl font-semibold text-center flex "><Image src='/logo.jpg' width={30} height={30} alt='codeverse'></Image>Codeverse</h2>
           <div className="space-y-4">
           <div>
@@ -46,7 +46,7 @@ const SignIn = () => {
   else {
     return (
       <div className="h-[calc(100vh-3rem)] flex items-center justify-center dark:text-white">
-        <div className="w-96 p-6 space-y-6 bg-white rounded-lg shadow-lg dark:bg-black dark:text-white">
+        <div className="w-96 p-6 space-y-6 bg-white rounded-lg shadow-lg dark:bg-black dark:text-white dark:shadow-gray-700">
           <h2 className="text-2xl font-semibold text-center flex "><Image src='/logo.jpg' width={30} height={30} alt='codeverse'></Image>Codeverse</h2>
           <div className="space-y-4">
             <div>
@@ -62,7 +62,7 @@ const SignIn = () => {
               pauseOnHover
               theme="light"
             />
-              <label htmlFor="email" className="block font-medium text-gray-700">
+              <label htmlFor="email" className="block font-medium text-gray-700 dark:text-white">
                 Email Address
               </label>
               <input
@@ -77,7 +77,7 @@ const SignIn = () => {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block font-medium text-gray-700">
+              <label htmlFor="password" className="block font-medium text-gray-700 dark:text-white">
                 Password
               </label>
               <input
