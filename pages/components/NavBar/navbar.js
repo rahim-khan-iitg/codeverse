@@ -7,8 +7,8 @@ const Navbar = () => {
   if(session)
   {
     return (
-      <nav className="flex justify-between items-center py-3 px shadow-md text-gray-700 dark:text-white dark:shadow-gray-950">
-        <Link href="/" className="text-1xl font-bold flex px-3">
+      <nav className="flex justify-between items-center py-3 px shadow-md text-gray-700 dark:text-white dark:shadow-gray-700">
+        <Link href="/" className="text-1xl font-bold flex">
           <Image src="/logo.jpg" alt="logo" width={20} height={20}/> Codeverse
         </Link>
         <div className="flex">
@@ -35,7 +35,7 @@ const Navbar = () => {
   else
   {
     return (
-      <nav className="flex justify-between items-center py-3 px shadow-md text-gray-700 dark:text-white dark:shadow-gray-950">
+      <nav className="flex justify-between items-center py-3 px shadow-md text-gray-700 dark:text-white dark:shadow-gray-700">
         <Link href="/" className="text-1xl font-bold flex px-3">
           <Image src="/logo.jpg" alt="logo" width={20} height={20} /> Codeverse
         </Link>

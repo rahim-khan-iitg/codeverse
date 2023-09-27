@@ -65,14 +65,11 @@ export default function Editor() {
       "lang": selected_language,
       "typed_code": code
     };
-    // console.log(code_input)
     if (code != null) {
       setLoading(true);
-      let link_local = "https://codeverse-language-server.azurewebsites.net/"
+      // let link_local = "https://codeverse-language-server.azurewebsites.net/"
       let response = await axios.post("/api/Editor", post_data);
-      // let response=await fetch("/api/Editor",{method:"POST",body:JSON.stringify(post_data)});
-      let response2=response.data;
-      // console.log(response2);
+      let response2 = response.data;
       if (response2.run_success == false) {
         if (response2.full_compile_error) {
           setOut(response2.full_compile_error);
@@ -80,13 +77,12 @@ export default function Editor() {
         else {
           setOut(response2.full_runtime_error);
         }
-
       }
       else {
         setOut(response2.code_output);
       }
       setLoading(false);
-      // console.log(response2);
+      handleTabClick(3)
     }
   }
   const onChange = React.useCallback((value, viewUpdate) => {
@@ -94,6 +90,11 @@ export default function Editor() {
   }, []);
   const handleInput = (event) => {
     setCode_input(event.target.value);
+  }
+  const [activeTab, setActiveTab] = useState(1);
+
+  const handleTabClick = (tabIndex) => {
+    setActiveTab(tabIndex);
   }
   const [code, setCode] = useState();
   const [LanguageName, setLanguageName] = useState(langs.cpp());
@@ -103,73 +104,99 @@ export default function Editor() {
   const [code_input, setCode_input] = useState("");
   const [loading, setLoading] = useState(false);
   return (
-    <div className='px-1 py-1 shadow-lg'>
+    <div>
+      <div className="flex border-b">
+        <div
+          className={`cursor-pointer p-4 ${activeTab === 1 ? 'border-b-2 border-blue-500' : ''
+            }`}
+          onClick={() => handleTabClick(1)}
+        >
+          <div className='flex'>
+            <div className='mr-2'>
+              <select onChange={handleLanguage} className='h-7 bg-indigo-600 hover:bg-indigo-400 rounded-md text-white'>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+                <option value="python">Python</option>
+                <option value="python3">Python3</option>
+                <option value="java">Java</option>
+                <option value="csharp">CSharp</option>
+                <option value="javascript">Javascript</option>
+                <option value="ruby">Ruby</option>
+                <option value="swift">Swift</option>
+                <option value="golang">Go</option>
+                <option value="scala">Scala</option>
+                <option value="kotlin">Kotlin</option>
+                <option value="rust">Rust</option>
+                <option value="php">PHP</option>
+                <option value="typescript">TypeScript</option>
+                <option value="erlang">Erlang</option>
+                <option value="dart">Dart</option>
+              </select>
+            </div>
+            <div>
+              <select onChange={handleTheme} className='h-7 bg-indigo-600 hover:bg-indigo-400 rounded-md text-white'>
+                <option value="vscode">vscodeDark</option>
+                <option value="abcdef">abcdef</option>
+                <option value="androidstudio">androidstudio</option>
+                <option value="atomone">atomone</option>
+                <option value="aura">aura</option>
+                <option value="basic">basic</option>
+                <option value="bbedit">bbedit</option>
+                <option value="bespin">bespin</option>
+                <option value="duotone">duotone</option>
+                <option value="eclipse">eclipse</option>
+                <option value="gruvbox-dark">gruvboxDark</option>
+                <option value="github">github</option>
+                <option value="kimbie">kimbie</option>
+                <option value="dracula">Dracula</option>
+                <option value="monokai">Monokai</option>
+                <option value="noctisLilac">noctisLilac</option>
+                <option value="abyss">Abyss</option>
+                <option value="okaidia">Okaidia</option>
+              </select>
+            </div>
+            <div className='mx-2 px-1 bg-indigo-600 hover:bg-indigo-400 rounded-md w-12'>
+              {loading ? (<div className='spinner-container'>
+                <MoonLoader color='white' loading={loading} css={spinnerStyles} size={22}></MoonLoader>
+              </div>
+              ) : (<button className='text-lg text-white' onClick={handleClick}>Run</button>)}
+            </div>
+          </div>
+        </div>
+        <div
+          className={`cursor-pointer p-4 ${activeTab === 2 ? 'border-b-2 border-blue-500' : ''
+            }`}
+          onClick={() => handleTabClick(2)}
+        >
+          <div className='bg-indigo-600 hover:bg-indigo-400 w-16 rounded-md text-center h-7 text-white'>input</div>
+        </div>
+        <div
+          className={`cursor-pointer p-4 ${activeTab === 3 ? 'border-b-2 border-blue-500' : ''
+            }`}
+          onClick={() => handleTabClick(3)}
+        >
+          <div className='bg-indigo-600 hover:bg-indigo-400 w-16 rounded-md text-center h-7 text-white'>output</div>
+        </div>
+      </div>
       <div>
-        <div className='flex mx-2'>
-          <div className='mr-2'>
-            <select onChange={handleLanguage} className='h-7 bg-slate-400 rounded-md'>
-              <option value="cpp">C++</option>
-              <option value="c">C</option>
-              <option value="python">Python</option>
-              <option value="python3">Python3</option>
-              <option value="java">Java</option>
-              <option value="csharp">CSharp</option>
-              <option value="javascript">Javascript</option>
-              <option value="ruby">Ruby</option>
-              <option value="swift">Swift</option>
-              <option value="golang">Go</option>
-              <option value="scala">Scala</option>
-              <option value="kotlin">Kotlin</option>
-              <option value="rust">Rust</option>
-              <option value="php">PHP</option>
-              <option value="typescript">TypeScript</option>
-              <option value="erlang">Erlang</option>
-              <option value="dart">Dart</option>
-            </select>
-          </div>
-          <div>
-            <select onChange={handleTheme} className='h-7 bg-slate-400 rounded-md'>
-              <option value="vscode">vscodeDark</option>
-              <option value="abcdef">abcdef</option>
-              <option value="androidstudio">androidstudio</option>
-              <option value="atomone">atomone</option>
-              <option value="aura">aura</option>
-              <option value="basic">basic</option>
-              <option value="bbedit">bbedit</option>
-              <option value="bespin">bespin</option>
-              <option value="duotone">duotone</option>
-              <option value="eclipse">eclipse</option>
-              <option value="gruvbox-dark">gruvboxDark</option>
-              <option value="github">github</option>
-              <option value="kimbie">kimbie</option>
-              <option value="dracula">Dracula</option>
-              <option value="monokai">Monokai</option>
-              <option value="noctisLilac">noctisLilac</option>
-              <option value="abyss">Abyss</option>
-              <option value="okaidia">Okaidia</option>
-
-            </select>
-          </div>
-          <div className='mx-2 px-1 bg-slate-400 hover:bg-slate-500 rounded-md w-12'>
-            {loading ? (<div className='spinner-container'>
-              <MoonLoader color='#123abc' loading={loading} css={spinnerStyles} size={22}></MoonLoader>
-            </div>
-            ) : (<button className='text-lg' onClick={handleClick}>Run</button>)}
-          </div>
-        </div>
-        <div className='h-[calc(100hv-10rem)] flex mx-2'>
-          <div className='w-screen'>
-            <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(88vh)' width='calc(70vw)' onChange={onChange} />
-          </div>
-          <div className='flex flex-col'>
+        {activeTab === 1 && <div>
+          <div className='px-1 py-1 shadow-lg'>
             <div>
-              <textarea value={code_input} name="input" style={{ height: "43.1vh", width: "29vw",border:"2px solid black" }} className="shadow-md px-2" onChange={handleInput} placeholder='type input here....'></textarea>
+              <div className='h-[calc(100hv-10rem)] flex mx-2'>
+                <div className='w-screen'>
+                  <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(86vh)' width='calc(65vw)' onChange={onChange} value={code}/>
+                </div>
+                <div className='flex flex-col'>
+                </div>
+              </div>
             </div>
-            <div>
-              <OutPutBox code={out} ></OutPutBox>
-            </div>
-          </div>
-        </div>
+          </div></div>}
+        {activeTab === 2 && <div> <div>
+          <textarea value={code_input} name="input" style={{ height: "86vh", width: "66vw", border: "2px solid black" }} className="shadow-md px-2 dark:bg-black" onChange={handleInput} placeholder='type input here....'></textarea>
+        </div></div>}
+        {activeTab === 3 && <div><div>
+          <OutPutBox code={out} ></OutPutBox>
+        </div></div>}
       </div>
     </div>
   )
