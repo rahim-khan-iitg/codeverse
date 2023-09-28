@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         if(req.method==="POST")
         {
             const [rows, fields] = await conn.execute("SELECT * FROM problems where id=?", [req.body.id]);
-            console.log(req.body.id)
+            // console.log(req.body.id)
             return res.status(200).json(rows);
         }
         
