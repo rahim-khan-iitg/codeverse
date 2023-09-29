@@ -6,6 +6,11 @@ const Navbar = () => {
   const {data:session}=useSession();
   if(session)
   {
+    let image=session.user.image;
+    if(image==undefined)
+    {
+      image="https://th.bing.com/th/id/OIP.R87PbOkdc695AAZ-_qrLYwHaHk?pid=ImgDet&rs=1";
+    }
     return (
       <nav className="flex justify-between items-center py-3 px shadow-md text-gray-700 dark:text-white dark:shadow-gray-700">
         <Link href="/" className="text-1xl font-bold flex">
@@ -23,7 +28,7 @@ const Navbar = () => {
           </Link>
           <Link href='/auth/login' className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
           {/* {session.user.email} */}
-          <img src={session.user.image} alt='image' className='w-8 rounded-2xl'></img>
+          <img src={image} alt='image' className='w-8 rounded-2xl'></img>
           </Link>
           <div className='mr-2'>
           <ThemeToggler/>
