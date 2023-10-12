@@ -7,6 +7,8 @@ import OutPutBox from './Outputbox';
 import React from 'react';
 import { css } from '@emotion/react'
 import { MoonLoader } from 'react-spinners';
+import { useSession,signIn } from 'next-auth/react';
+import {singin} from 'next-auth/react'
 const languages = {
   'c': langs.c(),
   'cpp': langs.cpp(),
@@ -103,6 +105,7 @@ export default function Editor() {
   const [selected_language, setSelected_language] = useState("cpp");
   const [code_input, setCode_input] = useState("");
   const [loading, setLoading] = useState(false);
+  const {data:session}=useSession();
   return (
     <div>
       <div className="flex border-b">
@@ -161,6 +164,12 @@ export default function Editor() {
               </div>
               ) : (<button className='text-lg text-white' onClick={handleClick}>Run</button>)}
             </div>
+            <div className='mx-2 px-1 bg-indigo-600 hover:bg-indigo-400 rounded-md'>
+              {session ? (<div className='spinner-container'>
+              <button className='text-lg text-white' onClick={handleClick}>submit</button>
+              </div>
+              ) : (<button className='text-lg text-white' onClick={()=>signIn()}>sumit</button>)}
+            </div>
           </div>
         </div>
         <div
@@ -184,7 +193,7 @@ export default function Editor() {
             <div>
               <div className='h-[calc(100hv-10rem)] flex mx-2'>
                 <div className='w-screen'>
-                  <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(86vh)' width='calc(65vw)' onChange={onChange} value={code}/>
+                  <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(100vh)' width='calc(65vw)' onChange={onChange} value={code}/>
                 </div>
                 <div className='flex flex-col'>
                 </div>
