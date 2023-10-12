@@ -8,8 +8,7 @@ export default async function handler(req, res) {
             password: process.env.DATABASE_PASS,
             database: process.env.DATABASE_NAME,
         })
-        // const problems=await axios.get("https://64fc6e0b605a026163ae7bdc.mockapi.io/problems");
-        const [rows, fields] = await conn.execute("SELECT * FROM problems");
+        const [rows, fields] = await conn.execute("SELECT * FROM user WHERE email=?", [req.body.email]);
         return res.status(200).json(rows);
     }
     catch(err)

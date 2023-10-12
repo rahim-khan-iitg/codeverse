@@ -8,10 +8,9 @@ export default function Document() {
       <Head />
       <body>
           {/* <Navbar login={'login'}></Navbar> */}
-          <Main />
-          <NextScript />
+          <Main/>
+          <NextScript/>
       </body>
     </Html>
-    
   )
 }

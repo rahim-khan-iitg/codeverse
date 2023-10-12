@@ -3,7 +3,7 @@ import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from 'next-auth/providers/google'
 import { compare } from "bcryptjs"
-import connection from "@/database/conn"
+import mysql from 'mysql2/promise'
 export const authOptions = {
   // Configure one or more authentication providers
   session: {
@@ -36,13 +36,18 @@ export const authOptions = {
   },
   secret: process.env.JWT_SECRET,
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({user, account, profile, email, credentials}) {
       return true
     }
   }
 }
 async function handler(email,password) {
-  const conn = await connection();
+  const conn =await mysql.createConnection({
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASS,
+    database: process.env.DATABASE_NAME,
+})
   const [rows, fields] = await conn.execute("SELECT * FROM user WHERE email=?", [email]);
   const fetched_pass=rows[0]['password'];
   const res= await compare(password,fetched_pass);

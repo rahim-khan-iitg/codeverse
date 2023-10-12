@@ -18,7 +18,6 @@ const HomePage = () => {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchData();
   }, []);
 

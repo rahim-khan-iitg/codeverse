@@ -5,8 +5,9 @@ import Navbar from './components/NavBar/navbar'
 
 export default function App({
   Component,
-  pageProps: { session, ...pageProps },
-}) {
+  pageProps: { session, ...pageProps},
+}) 
+{
   return (
     <ThemeProvider enableSystem={true} attribute='class'>
       <SessionProvider session={session}>

@@ -20,7 +20,6 @@ const ProblemPage = () => {
         console.error('Error fetching data:', error);
       }
     };
-
     if (id) {
       fetchData();
     }
@@ -46,5 +45,4 @@ const ProblemPage = () => {
     </div>
   );
 };
-
 export default ProblemPage;
