@@ -20,7 +20,7 @@ const Navbar = () => {
         <Link href="/" className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
             Home
           </Link>
-          <Link href="/auth/about" className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
+          <Link href="/profile" className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
             About
           </Link>
           <Link href="/contact" className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
@@ -46,16 +46,16 @@ const Navbar = () => {
         </Link>
         <div className="flex">
         <Link href="/" className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
-            Home
+          Home
           </Link>
-          <Link href="/auth/about" className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
-            About
+          <Link href="/profile" className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
+          About
           </Link>
           <Link href="/contact" className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
           Contact
           </Link>
           <Link href='/auth/login' className="px-4 hover:text-gray-800 dark:hover:text-gray-400">
-              login
+          login
           </Link>
           <div className='mr-2'>
           <ThemeToggler/>
@@ -63,8 +63,6 @@ const Navbar = () => {
         </div>
       </nav>
     )
-  }
-  
+  } 
 }
-
 export default Navbar
