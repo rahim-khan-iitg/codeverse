@@ -21,7 +21,7 @@ const SignIn = () => {
       setLoading(true)
       const res = await signIn('credentials', {
         email: email, password: password,
-        redirect: false
+        redirect: true
       })
       // console.log(res)
       toast("signed in successfully");

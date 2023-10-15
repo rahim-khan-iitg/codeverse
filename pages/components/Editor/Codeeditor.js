@@ -1,6 +1,6 @@
 import axios from 'axios';
 import CodeMirror from '@uiw/react-codemirror';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import * as themes from '@uiw/codemirror-themes-all'
 import OutPutBox from './Outputbox';
