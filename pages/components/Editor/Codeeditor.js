@@ -1,6 +1,6 @@
 import axios from 'axios';
 import CodeMirror from '@uiw/react-codemirror';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import * as themes from '@uiw/codemirror-themes-all'
 import OutPutBox from './Outputbox';
@@ -8,7 +8,6 @@ import React from 'react';
 import { css } from '@emotion/react'
 import { MoonLoader } from 'react-spinners';
 import { useSession,signIn } from 'next-auth/react';
-import {singin} from 'next-auth/react'
 const languages = {
   'c': langs.c(),
   'cpp': langs.cpp(),
@@ -53,7 +52,7 @@ const spinnerStyles = css`
   display: block;
   margin: 0 auto;
 `;
-export default function Editor() {
+export default function Editor({initial_code,test_cases}) {
   const handleLanguage = (event) => {
     setLanguageName(languages[event.target.value])
     setSelected_language(event.target.value);
@@ -81,7 +80,7 @@ export default function Editor() {
         }
       }
       else {
-        setOut(response2.code_output);
+        setOut(response2.std_output_list);
       }
       setLoading(false);
       handleTabClick(3)
@@ -98,14 +97,20 @@ export default function Editor() {
   const handleTabClick = (tabIndex) => {
     setActiveTab(tabIndex);
   }
-  const [code, setCode] = useState();
+  const [code, setCode] = useState('');
   const [LanguageName, setLanguageName] = useState(langs.cpp());
   const [ThemeName, setThemeName] = useState(themes.vscodeDark);
   const [out, setOut] = useState();
   const [selected_language, setSelected_language] = useState("cpp");
-  const [code_input, setCode_input] = useState("");
+  const [code_input, setCode_input] = useState('');
   const [loading, setLoading] = useState(false);
   const {data:session}=useSession();
+  useEffect(()=>{
+    setCode_input(test_cases);
+  },[test_cases]);
+  useEffect(()=>{
+    setCode(initial_code);
+  },[initial_code]);
   return (
     <div>
       <div className="flex border-b">

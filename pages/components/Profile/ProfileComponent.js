@@ -37,8 +37,9 @@ export default function ProfileComponent(){
             </div>
           </div>
           <div className="text-center md:mt-20">
+          <input type="file" name="" id=""/>
             <button className="text-white py-2 px-4 uppercase rounded bg-indigo-600 hover:bg-indigo-700 shadow-md hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-              Edit Avatar
+              Update Photo
             </button>
           </div>
         </div>

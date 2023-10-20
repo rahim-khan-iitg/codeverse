@@ -42,15 +42,17 @@ export const authOptions = {
   }
 }
 async function handler(email,password) {
-  const conn =await mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASS,
-    database: process.env.DATABASE_NAME,
-})
+//   const conn =await mysql.createConnection({
+//     host: process.env.DATABASE_HOST,
+//     user: process.env.DATABASE_USER,
+//     password: process.env.DATABASE_PASS,
+//     database: process.env.DATABASE_NAME,
+// })
+const conn =await mysql.createConnection(process.env.DATABASE_URL);
   const [rows, fields] = await conn.execute("SELECT * FROM user WHERE email=?", [email]);
   const fetched_pass=rows[0]['password'];
   const res= await compare(password,fetched_pass);
+  conn.end();
   if(res)
   {
     return { "email":rows[0]['email'],image:rows[0]['profile_image_link'] };

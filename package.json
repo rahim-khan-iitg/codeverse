@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.16.0",
     "@emotion/react": "^11.11.1",
     "@heroicons/react": "^1.0.6",
     "@uiw/codemirror-extensions-langs": "^4.21.11",

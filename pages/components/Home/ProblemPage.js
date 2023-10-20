@@ -9,13 +9,18 @@ const ProblemPage = () => {
 
   const [question, setQuestion] = useState('');
   const [title, setTitle] = useState('');
-
+  const [test_case,setTestCase]=useState('');
+  const [test_answers,setTestAnswer]=useState('');
+  const [initial_code,setInitialCode]=useState('');
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post('/api/DB/FetchSingleProblem', { id });
         setQuestion(response.data[0].question);
         setTitle(response.data[0].title);
+        if(response.data[0].testcases!=null){setTestCase(response.data[0].testcases);}
+        if(response.data[0].test_answers!=null){setTestAnswer(response.data[0].test_answers);}
+        if(response.data[0].initial_code!=null){setInitialCode(response.data[0].initial_code);}
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -32,7 +37,7 @@ const ProblemPage = () => {
         <pre className='question-content' dangerouslySetInnerHTML={{ __html: question }}></pre>
       </div>
       <div className='col-span-2'>
-        <Editor />
+        <Editor initial_code={initial_code} test_cases={test_case}/>
       </div>
 
       <style jsx>{`
@@ -40,6 +45,8 @@ const ProblemPage = () => {
           max-width: 100%; /* Set maximum width */
           word-wrap: break-word; /* Wrap long words and prevent overflow */
           overflow-x: auto; /* Enable horizontal scrollbar when content overflows horizontally */
+          overflow-y:auto;
+          max-height:105vh;
         }
       `}</style>
     </div>
