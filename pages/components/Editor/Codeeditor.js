@@ -34,13 +34,10 @@ const themeNames = {
   'androidstudio': themes.androidstudio,
   'atomone': themes.atomone,
   'aura': themes.aura,
-  'basic': themes.basic,
   'bbedit': themes.bbedit,
   'bespin': themes.bespin,
-  'duotone': themes.duotone,
   'dracula': themes.dracula,
   'eclipse': themes.eclipse,
-  'github': themes.github,
   'gruvbox-dark': themes.gruvboxDark,
   'kimbie': themes.kimbie,
   'material': themes.material,
@@ -148,13 +145,10 @@ export default function Editor({initial_code,test_cases}) {
                 <option value="androidstudio">androidstudio</option>
                 <option value="atomone">atomone</option>
                 <option value="aura">aura</option>
-                <option value="basic">basic</option>
                 <option value="bbedit">bbedit</option>
                 <option value="bespin">bespin</option>
-                <option value="duotone">duotone</option>
                 <option value="eclipse">eclipse</option>
                 <option value="gruvbox-dark">gruvboxDark</option>
-                <option value="github">github</option>
                 <option value="kimbie">kimbie</option>
                 <option value="dracula">Dracula</option>
                 <option value="monokai">Monokai</option>

@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 export default function ProfileComponent(){
-    const { data: session } = useSession();
+  const { data: session } = useSession();
   const [email, setEmail] = useState('');
   const [firstname, setName] = useState('');
   const [lastname, setName2] = useState('');
@@ -22,7 +22,7 @@ export default function ProfileComponent(){
       if (session.user.email) {
         fetchData();
       }
-    }, [session.user.email]);
+    }, [session]);
   return (
     <div className="p-16">
       <div className="p-8 bg-white shadow-lg mt-24 rounded-lg dark:bg-black dark:text-white dark:shadow-gray-600 dark:shadow-md">

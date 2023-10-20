@@ -1,16 +1,10 @@
-import mysql from "mysql2/promise"
 import { genSalt,hash } from "bcryptjs";
+import connection from "@/database/conn";
 export default async function handler(req, res) {
     if (req.method === "POST") {
         try
         {
-            // const conn =await mysql.createConnection({
-            //     host: process.env.DATABASE_HOST,
-            //     user: process.env.DATABASE_USER,
-            //     password: process.env.DATABASE_PASS,
-            //     database: process.env.DATABASE_NAME,
-            // })
-            const conn =await mysql.createConnection(process.env.DATABASE_URL);
+            const conn=await connection();
         }
         catch(err)
         {
