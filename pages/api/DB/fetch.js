@@ -1,4 +1,3 @@
-
 import { connection } from "@/database/conn";
 export default async function handler(req, res) {
     if (req.method === "POST") {

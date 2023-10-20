@@ -15,6 +15,7 @@ export default function ProfileComponent(){
           setName(response.data[0].first_name);
           setName2(response.data[0].last_name);
           setProfile(response.data[0].profile_image_link);
+          console.log(response.data);
         } catch (error) {
           console.error('Error fetching data:', error);
         }
