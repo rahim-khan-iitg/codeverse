@@ -6,7 +6,6 @@ import axios from 'axios';
 const ProblemPage = () => {
   const router = useRouter();
   const { id } = router.query;
-
   const [question, setQuestion] = useState('');
   const [title, setTitle] = useState('');
   const [test_case,setTestCase]=useState('');
@@ -37,7 +36,7 @@ const ProblemPage = () => {
         <pre className='question-content' dangerouslySetInnerHTML={{ __html: question }}></pre>
       </div>
       <div className='col-span-2'>
-        <Editor initial_code={initial_code} test_cases={test_case}/>
+        <Editor initial_code={initial_code} test_cases={test_case} submit={1} test_answers={test_answers}/>
       </div>
 
       <style jsx>{`

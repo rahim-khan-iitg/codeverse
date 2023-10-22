@@ -4,6 +4,7 @@ const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [problems, setProblems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [checked,setChecked]=useState(false);
   const itemsPerPage = 20;
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const HomePage = () => {
         <thead>
           <tr>
             <th className="py-2 px-4 border text-left">ID</th>
+            <th className='py-2 border'>Solved</th>
             <th className="py-2 px-4 border text-left">Title</th>
             <th className="py-2 px-4 border text-left">Difficulty</th>
           </tr>
@@ -63,6 +65,7 @@ const HomePage = () => {
           {filteredProblems.map(problem => (
             <tr key={problem.id}>
               <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.id}</Link></td>
+              <td className='py-2 px-4 border text-center'><input type="checkbox"/></td>
               <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.title}</Link></td>
               <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.difficulty}</Link></td>
               
