@@ -51,7 +51,7 @@ const spinnerStyles = css`
   display: block;
   margin: 0 auto;
 `;
-export default function Editor({ initial_code, test_cases, submit,test_answers }) {
+export default function Editor({preprocessing_code,pre_function, test_cases, submit,test_answers }) {
   const handleLanguage = (event) => {
     setLanguageName(languages[event.target.value]);
     setSelected_language(event.target.value);
@@ -63,7 +63,7 @@ export default function Editor({ initial_code, test_cases, submit,test_answers }
     const post_data = {
       "data_input": code_input,
       "lang": selected_language,
-      "typed_code": code
+      "typed_code": code+preprocessing_code
     };
     if (code != null) {
       setLoading(true);
@@ -87,9 +87,9 @@ export default function Editor({ initial_code, test_cases, submit,test_answers }
   }
   async function handleSubmit() {
     const post_data = {
-      "data_input": code_input,
+      "data_input":code_input,
       "lang": selected_language,
-      "typed_code": code
+      "typed_code": code+preprocessing_code
     };
     if (code != null) {
       let response = await axios.post("/api/DB/submit", {"post":post_data,"test":test_answers});
@@ -120,16 +120,16 @@ export default function Editor({ initial_code, test_cases, submit,test_answers }
     setCode_input(test_cases);
   }, [test_cases]);
   useEffect(() => {
-    setCode(initial_code);
+    setCode(pre_function);
     if (window.localStorage.getItem('code') != null) {
       setCode(window.localStorage.getItem('code'));
     }
-  }, [initial_code]);
-  useEffect(() => {
-    if (window.localStorage.getItem('code') != null) {
-      setCode(window.localStorage.getItem('code'));
-    }
-  }, [])
+  }, [pre_function]);
+  // useEffect(() => {
+  //   if (window.localStorage.getItem('code') != null) {
+  //     setCode(window.localStorage.getItem('code'));
+  //   }
+  // }, [])
   return (
     <div>
       <div className="flex border-b">

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getSession } from "next-auth/react";
 export default async function handler(req,res){
     if(req.method==="POST")
     {
