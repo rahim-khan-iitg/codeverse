@@ -61,7 +61,7 @@ export default function Editor({preprocessing_code,pre_function, test_cases, sub
   }
   async function handleClick(event) {
     const post_data = {
-      "data_input": code_input,
+      "data_input":test_cases,
       "lang": selected_language,
       "typed_code": code+preprocessing_code
     };
@@ -98,7 +98,7 @@ export default function Editor({preprocessing_code,pre_function, test_cases, sub
   }
   const onChange = React.useCallback((value, viewUpdate) => {
     setCode(value);
-    window.localStorage.setItem('code', value);
+    // window.localStorage.setItem('code', value);
   }, []);
   const handleInput = (event) => {
     setCode_input(event.target.value);
@@ -121,9 +121,9 @@ export default function Editor({preprocessing_code,pre_function, test_cases, sub
   }, [test_cases]);
   useEffect(() => {
     setCode(pre_function);
-    if (window.localStorage.getItem('code') != null) {
-      setCode(window.localStorage.getItem('code'));
-    }
+    // if (window.localStorage.getItem('code') != null) {
+    //   setCode(window.localStorage.getItem('code'));
+    // }
   }, [pre_function]);
   // useEffect(() => {
   //   if (window.localStorage.getItem('code') != null) {

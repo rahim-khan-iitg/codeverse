@@ -1,7 +1,12 @@
 import axios from "axios";
+import connection from "@/database/conn";
 export default async function handler(req,res){
     if(req.method==="POST")
     {
+        // const session=await getServerSession(req,res,authOptions);
+        // if(!session){
+        //     return res.status(400).json({"message":"unauthorised access"})
+        // }
         let submission_url="https://leetcode.com/playground/api/runcode";
         let n=0;
         let response = await axios.post(submission_url,req.body.post);
@@ -22,6 +27,8 @@ export default async function handler(req,res){
         let compare=JSON.stringify({"a":ans1})==JSON.stringify({"a":ans2})
         if(compare)
         {
+            const conn=await connection();
+            // conn.execute("INSERT INTO `solution` values()")
             return res.status(200).json({"message":"success"});
         }
         return res.status(200).json({"message":"some of the testcases are failing"});
