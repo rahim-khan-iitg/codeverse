@@ -6,12 +6,12 @@ import axios from 'axios';
 const ProblemPage = () => {
   const router = useRouter();
   const { id } = router.query;
-
   const [question, setQuestion] = useState('');
   const [title, setTitle] = useState('');
   const [test_case,setTestCase]=useState('');
   const [test_answers,setTestAnswer]=useState('');
-  const [initial_code,setInitialCode]=useState('');
+  const [preprocessing_code,setPreprocessingCode]=useState('');
+  const [preprocessing_function,setPreprocessingFunction]=useState('');
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,7 +20,8 @@ const ProblemPage = () => {
         setTitle(response.data[0].title);
         if(response.data[0].testcases!=null){setTestCase(response.data[0].testcases);}
         if(response.data[0].test_answers!=null){setTestAnswer(response.data[0].test_answers);}
-        if(response.data[0].initial_code!=null){setInitialCode(response.data[0].initial_code);}
+        if(response.data[0].preprocessing_code!=null){setPreprocessingCode(response.data[0].preprocessing_code);}
+        if(response.data[0].preprocessing_function!=null){setPreprocessingFunction(response.data[0].preprocessing_function);}
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -37,7 +38,7 @@ const ProblemPage = () => {
         <pre className='question-content' dangerouslySetInnerHTML={{ __html: question }}></pre>
       </div>
       <div className='col-span-2'>
-        <Editor initial_code={initial_code} test_cases={test_case}/>
+        <Editor preprocessing_code={preprocessing_code} test_cases={test_case} submit={1} test_answers={test_answers} pre_function={preprocessing_function}/>
       </div>
 
       <style jsx>{`

@@ -4,6 +4,7 @@ const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [problems, setProblems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  // const [checked,setChecked]=useState(false);
   const itemsPerPage = 20;
 
   useEffect(() => {
@@ -51,10 +52,11 @@ const HomePage = () => {
         value={searchTerm}
         onChange={e => setSearchTerm(e.target.value)}
       />
-      <table className="min-w-full border border-gray-300 dark:bg-black rounded-lg">
+      <table className="min-w-full border border-gray-300 dark:bg-black">
         <thead>
           <tr>
-            <th className="py-2 px-4 border text-left">ID</th>
+            <th className="py-2 px-4 border text-left w-2">ID</th>
+            <th className='py-2 border w-4 px-2'>Solved</th>
             <th className="py-2 px-4 border text-left">Title</th>
             <th className="py-2 px-4 border text-left">Difficulty</th>
           </tr>
@@ -63,6 +65,9 @@ const HomePage = () => {
           {filteredProblems.map(problem => (
             <tr key={problem.id}>
               <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.id}</Link></td>
+              <td className='py-3 px-4 border grid place-content-center'><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+<path fill="#4caf50" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#ccff90" d="M34.602,14.602L21,28.199l-5.602-5.598l-2.797,2.797L21,33.801l16.398-16.402L34.602,14.602z"></path>
+</svg></td>
               <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.title}</Link></td>
               <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.difficulty}</Link></td>
               

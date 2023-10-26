@@ -6,8 +6,10 @@ import * as themes from '@uiw/codemirror-themes-all'
 import OutPutBox from './Outputbox';
 import React from 'react';
 import { css } from '@emotion/react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { MoonLoader } from 'react-spinners';
-import { useSession,signIn } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 const languages = {
   'c': langs.c(),
   'cpp': langs.cpp(),
@@ -49,9 +51,9 @@ const spinnerStyles = css`
   display: block;
   margin: 0 auto;
 `;
-export default function Editor({initial_code,test_cases}) {
+export default function Editor({preprocessing_code,pre_function, test_cases, submit,test_answers }) {
   const handleLanguage = (event) => {
-    setLanguageName(languages[event.target.value])
+    setLanguageName(languages[event.target.value]);
     setSelected_language(event.target.value);
   }
   const handleTheme = (event) => {
@@ -61,7 +63,7 @@ export default function Editor({initial_code,test_cases}) {
     const post_data = {
       "data_input": code_input,
       "lang": selected_language,
-      "typed_code": code
+      "typed_code": code+preprocessing_code
     };
     if (code != null) {
       setLoading(true);
@@ -83,8 +85,20 @@ export default function Editor({initial_code,test_cases}) {
       handleTabClick(3)
     }
   }
+  async function handleSubmit() {
+    const post_data = {
+      "data_input":code_input,
+      "lang": selected_language,
+      "typed_code": code+preprocessing_code
+    };
+    if (code != null) {
+      let response = await axios.post("/api/DB/submit", {"post":post_data,"test":test_answers});
+      toast(response.data.message);
+    }
+  }
   const onChange = React.useCallback((value, viewUpdate) => {
     setCode(value);
+    window.localStorage.setItem('code', value);
   }, []);
   const handleInput = (event) => {
     setCode_input(event.target.value);
@@ -101,16 +115,36 @@ export default function Editor({initial_code,test_cases}) {
   const [selected_language, setSelected_language] = useState("cpp");
   const [code_input, setCode_input] = useState('');
   const [loading, setLoading] = useState(false);
-  const {data:session}=useSession();
-  useEffect(()=>{
+  const { data: session } = useSession();
+  useEffect(() => {
     setCode_input(test_cases);
-  },[test_cases]);
-  useEffect(()=>{
-    setCode(initial_code);
-  },[initial_code]);
+  }, [test_cases]);
+  useEffect(() => {
+    setCode(pre_function);
+    if (window.localStorage.getItem('code') != null) {
+      setCode(window.localStorage.getItem('code'));
+    }
+  }, [pre_function]);
+  // useEffect(() => {
+  //   if (window.localStorage.getItem('code') != null) {
+  //     setCode(window.localStorage.getItem('code'));
+  //   }
+  // }, [])
   return (
     <div>
       <div className="flex border-b">
+      <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
         <div
           className={`cursor-pointer p-4 ${activeTab === 1 ? 'border-b-2 border-blue-500' : ''
             }`}
@@ -163,11 +197,14 @@ export default function Editor({initial_code,test_cases}) {
               </div>
               ) : (<button className='text-lg text-white' onClick={handleClick}>Run</button>)}
             </div>
-            <div className='mx-2 px-1 bg-indigo-600 hover:bg-indigo-400 rounded-md'>
-              {session ? (<div className='spinner-container'>
-              <button className='text-lg text-white' onClick={handleClick}>submit</button>
-              </div>
-              ) : (<button className='text-lg text-white' onClick={()=>signIn()}>sumit</button>)}
+            <div>
+            
+            {submit?(<div className='mx-2 px-1 bg-indigo-600 hover:bg-indigo-400 rounded-md'>
+                {session ? (<div className='spinner-container'>
+                  <button className='text-lg text-white' onClick={handleSubmit}>submit</button>
+                </div>
+                ) : (<button className='text-lg text-white'>Sign In to submit</button>)}
+              </div>):(<div></div>)}
             </div>
           </div>
         </div>
@@ -192,7 +229,7 @@ export default function Editor({initial_code,test_cases}) {
             <div>
               <div className='h-[calc(100hv-10rem)] flex mx-2'>
                 <div className='w-screen'>
-                  <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(100vh)' width='calc(65vw)' onChange={onChange} value={code}/>
+                  <CodeMirror extensions={[LanguageName]} theme={ThemeName} height='calc(100vh)' width='calc(65vw)' onChange={onChange} value={code} />
                 </div>
                 <div className='flex flex-col'>
                 </div>
