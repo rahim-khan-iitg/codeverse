@@ -38,7 +38,7 @@ const ProblemPage = () => {
         <pre className='question-content' dangerouslySetInnerHTML={{ __html: question }}></pre>
       </div>
       <div className='col-span-2'>
-        <Editor preprocessing_code={preprocessing_code} test_cases={test_case} submit={1} test_answers={test_answers} pre_function={preprocessing_function}/>
+        <Editor preprocessing_code={preprocessing_code} test_cases={test_case} submit={1} test_answers={test_answers} pre_function={preprocessing_function} id={id}/>
       </div>
 
       <style jsx>{`

@@ -28,7 +28,8 @@ export default async function handler(req,res){
         if(compare)
         {
             const conn=await connection();
-            // conn.execute("INSERT INTO `solution` values()")
+            // console.log(req.body.id,req.body.email,req.body.post.typed_code,req.body.test);
+            conn.execute("INSERT INTO `solutions`(problem_id,user_email,submitted_code,test_cases) values(?,?,?,?)",[req.body.id,req.body.email,req.body.post.typed_code,req.body.test])
             return res.status(200).json({"message":"success"});
         }
         return res.status(200).json({"message":"some of the testcases are failing"});

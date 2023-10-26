@@ -51,7 +51,7 @@ const spinnerStyles = css`
   display: block;
   margin: 0 auto;
 `;
-export default function Editor({preprocessing_code,pre_function, test_cases, submit,test_answers }) {
+export default function Editor({preprocessing_code,pre_function, test_cases, submit,test_answers,id }) {
   const handleLanguage = (event) => {
     setLanguageName(languages[event.target.value]);
     setSelected_language(event.target.value);
@@ -61,7 +61,7 @@ export default function Editor({preprocessing_code,pre_function, test_cases, sub
   }
   async function handleClick(event) {
     const post_data = {
-      "data_input":test_cases,
+      "data_input":code_input,
       "lang": selected_language,
       "typed_code": code+preprocessing_code
     };
@@ -92,13 +92,13 @@ export default function Editor({preprocessing_code,pre_function, test_cases, sub
       "typed_code": code+preprocessing_code
     };
     if (code != null) {
-      let response = await axios.post("/api/DB/submit", {"post":post_data,"test":test_answers});
+      let response = await axios.post("/api/DB/submit", {"post":post_data,"test":test_answers,"id":Id,"email":session.user.email});
       toast(response.data.message);
     }
   }
   const onChange = React.useCallback((value, viewUpdate) => {
     setCode(value);
-    // window.localStorage.setItem('code', value);
+    // window.localStorage.setItem('code', {Id:code});
   }, []);
   const handleInput = (event) => {
     setCode_input(event.target.value);
@@ -116,20 +116,21 @@ export default function Editor({preprocessing_code,pre_function, test_cases, sub
   const [code_input, setCode_input] = useState('');
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
+  const [Id,setId]=useState(-1);
   useEffect(() => {
     setCode_input(test_cases);
   }, [test_cases]);
   useEffect(() => {
     setCode(pre_function);
-    // if (window.localStorage.getItem('code') != null) {
-    //   setCode(window.localStorage.getItem('code'));
+    // if (window.localStorage.getItem('code')!= null) {
+    //   let item=window.localStorage.getItem('code');
+    //   if(item[String(Id)]!=null){setCode(item[String(Id)]);}
+      
     // }
-  }, [pre_function]);
-  // useEffect(() => {
-  //   if (window.localStorage.getItem('code') != null) {
-  //     setCode(window.localStorage.getItem('code'));
-  //   }
-  // }, [])
+  }, [pre_function,Id]);
+  useEffect(() => {
+    setId(id);
+  }, [id])
   return (
     <div>
       <div className="flex border-b">
