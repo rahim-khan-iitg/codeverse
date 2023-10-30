@@ -3,7 +3,6 @@ import connection from "@/database/conn";
 export default async function handler(req, res) {
     if (req.method === "POST") {
         const conn=await connection();
-        
         try
         {
             const q=await conn.execute("INSERT INTO user(email) VALUES(?)",[req.body.email]);

@@ -33,12 +33,12 @@ const SignIn = () => {
 
   async function signInWithGoogle() {
     signIn('google');
-    const res = await fetch("/api/DB/signInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
+    const res = await fetch("/api/DB/SignInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
     toast("signed in successfully");
   }
   async function signInWithGithub() {
     signIn('github');
-    const res = await fetch("/api/DB/signInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
+    const res = await fetch("/api/DB/SignInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
     toast("signed in successfully");
   }
   if (session) {
