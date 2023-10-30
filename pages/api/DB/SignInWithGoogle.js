@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         
         try
         {
-            const q=await conn.execute("INSERT INTO user(email) VALUES(?,?)",[req.body.email]);
+            const q=await conn.execute("INSERT INTO user(email) VALUES(?)",[req.body.email]);
             conn.end();
         }
         catch(err)

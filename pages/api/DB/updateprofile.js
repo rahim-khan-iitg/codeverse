@@ -18,7 +18,7 @@ export default async function handler(req, res) {
             // Execute the UPDATE query without attempting to retrieve rows.
             await conn.execute("UPDATE `user` SET `first_name`=?, `last_name`=? WHERE `email`=?", [firstname, lastname, email]);
             conn.end();
-            
+            // console.log(firstname,lastname,email);
             return res.status(200).json({ message: "Name updated successfully" });
         } catch (err) {
             console.error(err);
