@@ -10,8 +10,7 @@ export default function ProfileComponent() {
   const [firstname, setName] = useState('');
   const [lastname, setName2] = useState('');
   const [imagelink, setProfile] = useState('');
-  const [solved, solvedProb] = useState(0);
-  const [Submitted, SubmittedProb] = useState(0);
+  const [solved, SolvedProb] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,8 +19,6 @@ export default function ProfileComponent() {
         setName(response.data[0].first_name);
         setName2(response.data[0].last_name);
         setProfile(response.data[0].profile_image_link);
-        solvedProb(response.data[0].solved_problems);
-        SubmittedProb(response.data[0].submitted_problems);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -56,23 +53,28 @@ export default function ProfileComponent() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          '/api/DB/FetchProblems'
+          '/api/DB/FetchTable', {
+          method: "POST",
+          body: JSON.stringify({ email: session.user.email, firstname: firstname, lastname: lastname }),
+          headers: { "Content-Type": "application/json" },
+        }
         );
         const data = await response.json();
+
         setProblems(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-    fetchData();
-  }, []);
-
+    if (session.user.email) {
+      fetchData();
+    }
+  }, [session]);
   const filteredProblems = problems
     .filter(problem =>
       problem.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
   const totalPages = Math.ceil(problems.length / itemsPerPage);
 
   const handleNextPage = () => {
@@ -80,7 +82,6 @@ export default function ProfileComponent() {
       setCurrentPage(prevPage => prevPage + 1);
     }
   };
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(prevPage => prevPage - 1);
@@ -110,18 +111,19 @@ export default function ProfileComponent() {
                 <p class="text-gray-400 dark:text-white">Problems Solved</p>
               </div>
               <div class="flex-1 text-center">
-                <p class="font-bold text-gray-700 text-2xl dark:text-white">{Submitted}</p>
+                <p class="font-bold text-gray-700 text-2xl dark:text-white">{problems.length}</p>
                 <p class="text-gray-400 dark:text-white">Problems Submitted</p>
               </div>
             </div>
           </div>
           <div className="relative">
             <div className="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500">
+
               <img src={imagelink} alt="image" className="w-48 h-48 rounded-full" />
             </div>
           </div>
         </div>
-        <div className="mt-10 text-center pb-8 border-b border-gray-300">
+        <div className="mt-20 text-center pb-8 border-b border-gray-300">
           <h1 className="text-4xl font-semibold text-gray-700 dark:text-white">{firstname} {lastname}</h1>
           <p className="font-light text-gray-600 mt-3 dark:text-white">{email}</p>
         </div>
@@ -131,8 +133,8 @@ export default function ProfileComponent() {
       </div>
       <div className="max-w-sm mt-7">
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 dark:bg-black">
-        Change Avatar
-        <div className="text-center md:mt-20">
+          Change Avatar
+          <div className="text-center md:mt-20">
             <input type="file" name="" id="" />
             <button className="text-white py-2 px-4 uppercase rounded bg-indigo-600 hover:bg-indigo-700 shadow-md hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
               Update Photo
@@ -174,50 +176,50 @@ export default function ProfileComponent() {
         </div>
       </div>
       <div className="container mx-auto p-8">
-          <h1 className="text-3xl font-bold mb-6">Submitted and Solved problems</h1>
-          <input
-            type="text"
-            placeholder="Search problems"
-            className="p-2 border mb-4 rounded-xl"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-          />
-          <table className="min-w-full border border-gray-300 dark:bg-black rounded-lg">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 border text-left">ID</th>
-                <th className="py-2 px-4 border text-left">Title</th>
-                <th className="py-2 px-4 border text-left">Difficulty</th>
+        <h1 className="text-3xl font-bold mb-6">Submitted and Solved problems</h1>
+        <input
+          type="text"
+          placeholder="Search problems"
+          className="p-2 border mb-4 rounded-xl"
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+        <table className="min-w-full border border-gray-300 dark:bg-black rounded-lg">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border text-left">ID</th>
+              <th className="py-2 px-4 border text-left">Title</th>
+              <th className="py-2 px-4 border text-left">Difficulty</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredProblems.map(problem => (
+              <tr key={problem.id}>
+                <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.id}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.title}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.difficulty}</Link></td>
+
               </tr>
-            </thead>
-            <tbody>
-              {filteredProblems.map(problem => (
-                <tr key={problem.id}>
-                  <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.id}</Link></td>
-                  <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.title}</Link></td>
-                  <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.difficulty}</Link></td>
-                  
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="mt-4 flex justify-between">
-            <button
-              className="px-4 py-2 bg-indigo-600 rounded text-white"
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-            <button
-              className="px-4 py-2 bg-indigo-600 rounded text-white"
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
+            ))}
+          </tbody>
+        </table>
+        <div className="mt-4 flex justify-between">
+          <button
+            className="px-4 py-2 bg-indigo-600 rounded text-white"
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <button
+            className="px-4 py-2 bg-indigo-600 rounded text-white"
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
         </div>
+      </div>
     </div>
-      );
+  );
 };
