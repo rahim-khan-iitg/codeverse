@@ -30,6 +30,17 @@ const SignIn = () => {
       setLoading(false)
     }
   }
+
+  async function signInWithGoogle() {
+    signIn('google');
+    const res = await fetch("/api/DB/signInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
+    toast("signed in successfully");
+  }
+  async function signInWithGithub() {
+    signIn('github');
+    const res = await fetch("/api/DB/signInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
+    toast("signed in successfully");
+  }
   if (session) {
     return (
       <div className="h-[calc(100vh-3rem)] flex items-center justify-center dark:text-white">
@@ -105,7 +116,7 @@ const SignIn = () => {
                   Log In
                 </button>)}
             </div>
-            <div className='space-x-2'><button onClick={() => { signIn('github'); toast("signed in successfully") }}><img src='https://logos-download.com/wp-content/uploads/2016/09/GitHub_logo.png' alt='github' height={30} width={30} /></button><button onClick={() => { signIn('google'); toast("signed in successfully") }}> <img src="https://th.bing.com/th/id/OIP.jzpEpg2QzzXWjH4-4CPg2QHaHa?pid=ImgDet&rs=1" alt="google" width={30} height={30} className='rounded-xl' /></button></div>
+            <div className='space-x-2'><button onClick={signInWithGithub}><img src='https://logos-download.com/wp-content/uploads/2016/09/GitHub_logo.png' alt='github' height={30} width={30} /></button><button onClick={signInWithGoogle}> <img src="https://th.bing.com/th/id/OIP.jzpEpg2QzzXWjH4-4CPg2QHaHa?pid=ImgDet&rs=1" alt="google" width={30} height={30} className='rounded-xl' /></button></div>
             <div>
               Don&apos;t have an account? <Link href="/auth/signup" className='text-blue-800 font-bold'> sign up</Link>
             </div>
