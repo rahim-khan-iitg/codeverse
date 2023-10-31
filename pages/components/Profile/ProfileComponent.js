@@ -69,7 +69,7 @@ export default function ProfileComponent() {
     if (session.user.email) {
       fetchData();
     }
-  }, [session]);
+  }, [session,firstname,lastname]);
   const filteredProblems = problems
     .filter(problem =>
       problem.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -113,6 +113,7 @@ export default function ProfileComponent() {
               <div class="flex-1 text-center">
                 <p class="font-bold text-gray-700 text-2xl dark:text-white">{problems.length}</p>
                 <p class="text-gray-400 dark:text-white">Problems Submitted</p>
+                <Link href={"/question"} className="text-blue-400">Submit a Problem</Link>
               </div>
             </div>
           </div>

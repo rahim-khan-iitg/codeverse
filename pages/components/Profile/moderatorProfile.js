@@ -69,7 +69,7 @@ export default function ModeratorProfileComponent() {
     if (session.user.email) {
       fetchData();
     }
-  }, [session,firstname,lastname]);
+  }, [session, firstname, lastname]);
   const filteredProblems = problems
     .filter(problem =>
       problem.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -87,6 +87,17 @@ export default function ModeratorProfileComponent() {
       setCurrentPage(prevPage => prevPage - 1);
     }
   };
+  async function Approve(id) {
+    const response = await fetch('/api/DB/Approve', {method: "POST",body: JSON.stringify({id:id}),headers: { "Content-Type": "application/json" }});
+    const data= await response.json();
+    toast(data.message);
+
+  }
+  async function DeleteProblem(id) {
+    const response = await fetch('/api/DB/DeleteProblem', {method: "POST",body: JSON.stringify({id:id}),headers: { "Content-Type": "application/json" } });
+    const data= await response.json();
+    toast(data.message);
+  }
   return (
 
     <div className="p-16">
@@ -190,6 +201,7 @@ export default function ModeratorProfileComponent() {
               <th className="py-2 px-4 border text-left">ID</th>
               <th className="py-2 px-4 border text-left">Title</th>
               <th className="py-2 px-4 border text-left">Difficulty</th>
+              <th className="py-2 px-4 border">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -198,7 +210,9 @@ export default function ModeratorProfileComponent() {
                 <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.id}</Link></td>
                 <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.title}</Link></td>
                 <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.difficulty}</Link></td>
-
+                <td className="py-2 px-4 border text-center"><button className="px-4 py-2 mx-1 bg-indigo-600 rounded text-white" onClick={()=>Approve(problem.id)}>Approve</button>
+                  <button className="px-4 py-2 mx-1 bg-indigo-600 rounded text-white" onClick={()=>DeleteProblem(problem.id)}>Delete</button>
+                  <button className="px-4 py-2 mx-1 bg-indigo-600 rounded text-white">Revert</button></td>
               </tr>
             ))}
           </tbody>
