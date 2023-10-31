@@ -19,7 +19,7 @@ const SignIn = () => {
   async function handleOnSubmit() {
     if (email != "" && password != "") {
       setLoading(true)
-      const res = await signIn('user', {
+      const res = await signIn('moderator', {
         email: email, password: password,
         redirect: true
       })
@@ -31,20 +31,6 @@ const SignIn = () => {
     }
   }
 
-  async function signInWithGoogle() {
-    signIn('google');
-    setTimeout(async () => {
-      const res = await fetch("/api/DB/SignInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
-      toast("signed in successfully");
-    }, 4000);
-  }
-  async function signInWithGithub() {
-    signIn('github');
-    setTimeout(async () => {
-      const res = await fetch("/api/DB/SignInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
-      toast("signed in successfully");
-    }, 4000);
-  }
   if (session) {
     return (
       <div className="h-[calc(100vh-3rem)] flex items-center justify-center dark:text-white">
@@ -53,7 +39,7 @@ const SignIn = () => {
           <div className="space-y-4">
             <div>
               signed In as {session.user.email}<br />
-              <Link href={"/profile/user"} className='text-blue-400'>Go to Profile</Link>
+              <Link href={"/profile/moderator"} className='text-blue-400'>Go to Profile</Link>
               <button className="w-full bg-indigo-600 text-white font-semibold p-2 mt-2 rounded-md hover:bg-indigo-700" onClick={() => signOut()}>Sign Out</button>
             </div>
           </div>
@@ -121,18 +107,10 @@ const SignIn = () => {
                   Log In
                 </button>)}
             </div>
-            <div className='space-x-2'><button onClick={signInWithGithub}><img src='https://pngimg.com/uploads/github/github_PNG28.png' alt='github' height={30} width={30} /></button><button onClick={signInWithGoogle}> <img src="https://th.bing.com/th/id/OIP.jzpEpg2QzzXWjH4-4CPg2QHaHa?pid=ImgDet&rs=1" alt="google" width={30} height={30} className='rounded-xl' /></button></div>
-            <div>
-              <Link href="/auth/moderator" className='text-blue-600 font-bold'>Sign In as Moderator</Link>
-            </div>
-            <div>
-              Don&apos;t have an account? <Link href="/auth/signup" className='text-blue-800 font-bold'> sign up</Link>
-            </div>
             
             <div>
               <Link href="/auth/forgot" className='text-red-600 font-bold'>Forgot Password</Link>
             </div>
-            
           </div>
         </div>
       </div>
