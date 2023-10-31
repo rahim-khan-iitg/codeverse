@@ -38,7 +38,10 @@ const SignIn = () => {
   }
   async function signInWithGithub() {
     signIn('github');
-    const res = await fetch("/api/DB/SignInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
+    setTimeout(async () => {
+      const res = await fetch("/api/DB/SignInWithGoogle", { method: "POST", body: JSON.stringify({ email:session.user.email }), headers: { "Content-Type": "application/json" } });
+    }, 4000);
+    
     toast("signed in successfully");
   }
   if (session) {
