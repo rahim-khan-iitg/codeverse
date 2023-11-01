@@ -1,12 +1,13 @@
 import axios from "axios";
 import connection from "@/database/conn";
+import { getSession } from "next-auth/react";
 export default async function handler(req,res){
+    const session=await getSession({req});
+    if(!session){
+        return res.status(400).json({"result":"unauthorised access"})
+    }
     if(req.method==="POST")
     {
-        // const session=await getServerSession(req,res,authOptions);
-        // if(!session){
-        //     return res.status(400).json({"message":"unauthorised access"})
-        // }
         let submission_url="https://leetcode.com/playground/api/runcode";
         let n=0;
         let response = await axios.post(submission_url,req.body.post);

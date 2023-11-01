@@ -1,6 +1,11 @@
 import { connection } from "@/database/conn";
 import mysql from "mysql2/promise"
+import { getSession } from "next-auth/react";
 export default async function handler(req, res) {
+    const session=await getSession({req});
+    if(!session){
+        return res.status(400).json({"result":"unauthorised access"})
+    }
     if (req.method === "POST") {
         const conn =await mysql.createConnection(process.env.DATABASE_URL);
         // const conn = await connection();
