@@ -46,7 +46,9 @@ export default function ProfileComponent() {
   }
   const [searchTerm, setSearchTerm] = useState('');
   const [problems, setProblems] = useState([]);
+  const [submitted, setSubmitted] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageSubmitted, setCurrentPageSubmitted] = useState(1);
   const itemsPerPage = 20;
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export default function ProfileComponent() {
         const response = await fetch(
           '/api/DB/FetchTable', {
           method: "POST",
-          body: JSON.stringify({ email: session.user.email, firstname: firstname, lastname: lastname }),
+          body: JSON.stringify({ email: session.user.email }),
           headers: { "Content-Type": "application/json" },
         }
         );
@@ -69,14 +71,30 @@ export default function ProfileComponent() {
     if (session.user.email) {
       fetchData();
     }
-  }, [session,firstname,lastname]);
-  const filteredProblems = problems
-    .filter(problem =>
-      problem.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  }, [session]);
+  useEffect(() => {
+    const fetchSubmitted = async () => {
+      try {
+        const response = await fetch(
+          '/api/DB/FetchSubmitted', {
+          method: "POST",
+          body: JSON.stringify({ email: session.user.email }),
+          headers: { "Content-Type": "application/json" },
+        }
+        );
+        const data = await response.json();
+        setSubmitted(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    if (session.user.email) {
+      fetchSubmitted();
+    }
+  }, [session]);
+  const filteredProblems = problems.filter(problem =>problem.title.toLowerCase().includes(searchTerm.toLowerCase())).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const filteredSubmitted = submitted.filter(problem =>problem.title.toLowerCase().includes(searchTerm.toLowerCase())).slice((currentPageSubmitted - 1) * itemsPerPage, currentPageSubmitted * itemsPerPage);
   const totalPages = Math.ceil(problems.length / itemsPerPage);
-
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(prevPage => prevPage + 1);
@@ -85,6 +103,16 @@ export default function ProfileComponent() {
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(prevPage => prevPage - 1);
+    }
+  };
+  const handleNextPagesubmitted = () => {
+    if (currentPageSubmitted < totalPages) {
+      setCurrentPageSubmitted(prevPage => prevPage + 1);
+    }
+  };
+  const handlePrevPageSubmitted = () => {
+    if (currentPage > 1) {
+      setCurrentPageSubmitted(prevPage => prevPage - 1);
     }
   };
   return (
@@ -107,11 +135,11 @@ export default function ProfileComponent() {
           <div className="text-center mt-20 md:mt-0">
             <div class="flex">
               <div class="flex-1 text-center">
-                <p class="font-bold text-gray-700 text-2xl dark:text-white">{solved}</p>
+                <p class="font-bold text-gray-700 text-2xl dark:text-white">{problems.length}</p>
                 <p class="text-gray-400 dark:text-white">Problems Solved</p>
               </div>
               <div class="flex-1 text-center">
-                <p class="font-bold text-gray-700 text-2xl dark:text-white">{problems.length}</p>
+                <p class="font-bold text-gray-700 text-2xl dark:text-white">{submitted.length}</p>
                 <p class="text-gray-400 dark:text-white">Problems Submitted</p>
                 <Link href={"/question"} className="text-blue-400">Submit a Problem</Link>
               </div>
@@ -177,7 +205,7 @@ export default function ProfileComponent() {
         </div>
       </div>
       <div className="container mx-auto p-8">
-        <h1 className="text-3xl font-bold mb-6">Submitted and Solved problems</h1>
+        <h1 className="text-3xl font-bold mb-6">Solved problems</h1>
         <input
           type="text"
           placeholder="Search problems"
@@ -196,9 +224,9 @@ export default function ProfileComponent() {
           <tbody>
             {filteredProblems.map(problem => (
               <tr key={problem.id}>
-                <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.id}</Link></td>
-                <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.title}</Link></td>
-                <td className="py-2 px-4 border"><Link href={`problem/${problem.id}`}>{problem.difficulty}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`/problem/${problem.id}`}>{problem.id}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`/problem/${problem.id}`}>{problem.title}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`/problem/${problem.id}`}>{problem.difficulty}</Link></td>
 
               </tr>
             ))}
@@ -221,6 +249,51 @@ export default function ProfileComponent() {
           </button>
         </div>
       </div>
+      <div className="container mx-auto p-8">
+        <h1 className="text-3xl font-bold mb-6">Submitted problems</h1>
+        <input
+          type="text"
+          placeholder="Search problems"
+          className="p-2 border mb-4 rounded-xl"
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+        <table className="min-w-full border border-gray-300 dark:bg-black rounded-lg">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border text-left">ID</th>
+              <th className="py-2 px-4 border text-left">Title</th>
+              <th className="py-2 px-4 border text-left">Difficulty</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredSubmitted.map(problem => (
+              <tr key={problem.id}>
+                <td className="py-2 px-4 border"><Link href={`/problem/${problem.id}`}>{problem.id}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`/problem/${problem.id}`}>{problem.title}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`/problem/${problem.id}`}>{problem.difficulty}</Link></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="mt-4 flex justify-between">
+          <button
+            className="px-4 py-2 bg-indigo-600 rounded text-white"
+            onClick={handlePrevPageSubmitted}
+            disabled={currentPageSubmitted === 1}
+          >
+            Previous
+          </button>
+          <button
+            className="px-4 py-2 bg-indigo-600 rounded text-white"
+            onClick={handleNextPagesubmitted}
+            disabled={currentPageSubmitted === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
     </div>
   );
 };

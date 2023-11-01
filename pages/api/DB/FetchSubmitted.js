@@ -4,7 +4,7 @@ export default async function handler(req, res) {
     {
         const email = req.body.email;
         const conn=await connection();
-        const [rows, fields] = await conn.execute("SELECT id,title,difficulty FROM problems WHERE id in (select problem_id from solutions where user_email=?)", [email]);
+        const [rows, fields] = await conn.execute("SELECT id,title,difficulty FROM problems WHERE submitted_by=?", [email]);
         conn.end();
         return res.status(200).json(rows);
     }

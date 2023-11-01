@@ -129,13 +129,12 @@ export default function ModeratorProfileComponent() {
           </div>
           <div className="relative">
             <div className="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500">
-
               <img src={imagelink} alt="image" className="w-48 h-48 rounded-full" />
             </div>
           </div>
         </div>
         <div className="mt-20 text-center pb-8 border-b border-gray-300">
-          <h1 className="text-4xl font-semibold text-gray-700 dark:text-white">{firstname} {lastname}</h1>
+          <h1 className="text-4xl font-semibold text-gray-700 dark:text-white">{firstname} {lastname} (moderator)</h1>
           <p className="font-light text-gray-600 mt-3 dark:text-white">{email}</p>
         </div>
         <div className="mt-6 text-center">
