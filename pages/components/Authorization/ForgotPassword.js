@@ -15,6 +15,7 @@ const Forgotpassword = () => {
       let otp = generate_otp()
       setGeneratedOTP(otp);
       const res = await fetch("/api/Email", { method: "POST", body: JSON.stringify({ email: email, otp: otp }), headers: { "Content-Type": "application/json" } })
+      toast(otp);
       toast("OTP sent successfully");
     }
   }

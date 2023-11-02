@@ -3,7 +3,7 @@ import Editor from '../Editor/Codeeditor';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-const ProblemPage = () => {
+const ProblemPage = ({page_id}) => {
   const router = useRouter();
   const { id } = router.query;
   const [question, setQuestion] = useState('');
@@ -12,10 +12,24 @@ const ProblemPage = () => {
   const [test_answers,setTestAnswer]=useState('');
   const [preprocessing_code,setPreprocessingCode]=useState('');
   const [preprocessing_function,setPreprocessingFunction]=useState('');
+  const [page_No,setPageNo]=useState();
+  useEffect(()=>{
+    setPageNo(page_id);
+  },[page_id]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('/api/DB/FetchSingleProblem', { id });
+        let response;
+        if(page_No==1)
+        {
+          response = await axios.post('/api/DB/FetchSingleSolution', { id });
+        }
+        else 
+        {
+          
+          response = await axios.post('/api/DB/FetchSingleProblem', { id });
+        }
+         
         setQuestion(response.data[0].question);
         setTitle(response.data[0].title);
         if(response.data[0].testcases!=null){setTestCase(response.data[0].testcases);}
@@ -29,7 +43,7 @@ const ProblemPage = () => {
     if (id) {
       fetchData();
     }
-  }, [id]);
+  }, [id,page_No]);
 
   return (
     <div className='grid grid-cols-3'>

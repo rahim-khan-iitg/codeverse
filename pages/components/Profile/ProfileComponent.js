@@ -224,9 +224,9 @@ export default function ProfileComponent() {
           <tbody>
             {filteredProblems.map(problem => (
               <tr key={problem.id}>
-                <td className="py-2 px-4 border"><Link href={`/problem/${problem.id}`}>{problem.id}</Link></td>
-                <td className="py-2 px-4 border"><Link href={`/problem/${problem.id}`}>{problem.title}</Link></td>
-                <td className="py-2 px-4 border"><Link href={`/problem/${problem.id}`}>{problem.difficulty}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`user/problem/${problem.id}`}>{problem.id}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`user/problem/${problem.id}`}>{problem.title}</Link></td>
+                <td className="py-2 px-4 border"><Link href={`user/problem/${problem.id}`}>{problem.difficulty}</Link></td>
 
               </tr>
             ))}

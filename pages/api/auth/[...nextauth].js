@@ -19,8 +19,9 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
+      type:'credentials',
       id: "user",
-      type: 'credentials',
+      name:"user login",
       credentials: {
         email: { label: "Email", type: "email", placeholder: "example@something.com" },
         password: { label: "Password", type: "password", placeholder: "**********" }
@@ -32,8 +33,9 @@ export const authOptions = {
       }
     }),
     CredentialsProvider({
+      type:"credentials",
       id: "moderator",
-      type: 'credentials',
+      name:"moderator login",
       credentials: {
         email: { label: "Email", type: "email", placeholder: "example@something.com" },
         password: { label: "Password", type: "password", placeholder: "**********" }

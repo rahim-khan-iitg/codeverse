@@ -1,6 +1,7 @@
 import connection from "@/database/conn";
-
+import { getSession } from "next-auth/react";
 export default async function handler(req, res) {
+    
     if (req.method === "POST") {
         let conn; // Define the connection variable outside of the try-catch block.
 

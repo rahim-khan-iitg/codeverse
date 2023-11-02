@@ -1,7 +1,9 @@
-import connection from '@/database/conn';
+import { getSession } from "next-auth/react";
 import mysql from "mysql2/promise"
 export default async function handler(req, res) {
+    
     try {
+        
         if (req.method === "POST") {
             // const conn = await connection();
             const conn =await mysql.createConnection(process.env.DATABASE_URL);

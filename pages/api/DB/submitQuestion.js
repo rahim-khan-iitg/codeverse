@@ -1,6 +1,7 @@
 import { connection } from "@/database/conn";
-import mysql from "mysql2/promise"
+import mysql from "mysql2/promise";
 export default async function handler(req, res) {
+    
     if (req.method === "POST") {
         const conn =await mysql.createConnection(process.env.DATABASE_URL);
         // const conn = await connection();
