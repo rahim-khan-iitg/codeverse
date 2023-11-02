@@ -1,10 +1,10 @@
 import { transporter } from "@/lib/Transporter";
 import { getSession } from "next-auth/react";
 export default async function handler(req,res){
-    const session=await getSession({req});
-    if(!session){
-        return res.status(400).json({"result":"unauthorised access"})
-    }
+    // const session=await getSession({req});
+    // if(!session){
+    //     return res.status(400).json({"result":"unauthorised access"})
+    // }
     if (req.method==="POST"){
        await transporter.sendMail({
             from: process.env.EMAIL_ID,
