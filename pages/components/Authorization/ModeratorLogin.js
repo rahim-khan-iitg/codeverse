@@ -19,7 +19,7 @@ const SignIn = () => {
   async function handleOnSubmit() {
     if (email != "" && password != "") {
       setLoading(true)
-      const res = await signIn('credentials', {
+      const res = await signIn('moderator', {
         email: email, password: password,
         redirect: true
       })
