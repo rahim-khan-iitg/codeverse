@@ -19,7 +19,7 @@ const SignIn = () => {
   async function handleOnSubmit() {
     if (email != "" && password != "") {
       setLoading(true)
-      const res = await signIn('moderator', {
+      const res = await signIn('credentials', {
         email: email, password: password,
         redirect: true
       })
@@ -109,7 +109,7 @@ const SignIn = () => {
             </div>
             
             <div>
-              <Link href="/auth/forgot" className='text-red-600 font-bold'>Forgot Password</Link>
+              {/* <Link href="/auth/forgot" className='text-red-600 font-bold'>Forgot Password</Link> */}
             </div>
           </div>
         </div>
