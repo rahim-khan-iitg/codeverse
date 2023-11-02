@@ -92,8 +92,8 @@ export default function ProfileComponent() {
       fetchSubmitted();
     }
   }, [session]);
-  const filteredProblems = problems.filter(problem =>problem.title.toLowerCase().includes(searchTerm.toLowerCase())).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  const filteredSubmitted = submitted.filter(problem =>problem.title.toLowerCase().includes(searchTerm.toLowerCase())).slice((currentPageSubmitted - 1) * itemsPerPage, currentPageSubmitted * itemsPerPage);
+  const filteredProblems = problems.filter(problem => problem.title.toLowerCase().includes(searchTerm.toLowerCase())).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const filteredSubmitted = submitted.filter(problem => problem.title.toLowerCase().includes(searchTerm.toLowerCase())).slice((currentPageSubmitted - 1) * itemsPerPage, currentPageSubmitted * itemsPerPage);
   const totalPages = Math.ceil(problems.length / itemsPerPage);
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -293,7 +293,6 @@ export default function ProfileComponent() {
           </button>
         </div>
       </div>
-
     </div>
   );
 };
